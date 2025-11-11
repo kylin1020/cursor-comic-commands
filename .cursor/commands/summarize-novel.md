@@ -1,23 +1,23 @@
 # summarize-novel
 
-## 📋 任务清单
+## 📋 Task Checklist
 
-执行此命令时，请按照以下顺序完成任务，每完成一项就勾选：
+When executing this command, complete tasks in the following order and check off each completed item:
 
-### 阶段1：读取与分析
-- [ ] 确认小说文件路径：询问用户提供小说txt文件的路径
-- [ ] 读取小说内容：使用分段读取避免超出上下文限制（如果文件过大）
-- [ ] 初步扫描：了解小说的整体结构、篇幅和章节数量
+### Stage 1: Reading and Analysis
+- [ ] Confirm novel file path: Ask user to provide novel txt file path
+- [ ] Read novel content: Use segmented reading to avoid exceeding context limits (if file is too large)
+- [ ] Initial scan: Understand novel's overall structure, length and chapter count
 
-### 阶段2：内容提取
-- [ ] 提取故事总结：分析整个故事的主题、主线、冲突、高潮和结局方向（300-500字）
-- [ ] 提取主要角色：识别3-8个主要角色，记录每个角色的外貌、性格、服装、年龄、关系等
-- [ ] 提取主要场景：识别故事中反复出现或重要的场景和地点，记录环境特征和氛围
+### Stage 2: Content Extraction
+- [ ] Extract story summary: Analyze entire story's theme, main plot, conflict, climax and ending direction (300-500 chars)
+- [ ] Extract main characters: Identify 3-8 main characters, record each character's appearance, personality, clothing, age, relationships, etc.
+- [ ] Extract main scenes: Identify repeatedly appearing or important scenes and locations in story, record environmental features and atmosphere
 
-### 阶段3：格式化输出
-- [ ] 生成结构化输出：按照标准格式整理所有提取的信息
-- [ ] 验证完整性：确保所有关键信息都已包含且描述清晰
-- [ ] 展示输出结果：将格式化的内容展示给用户，方便复制
+### Stage 3: Formatted Output
+- [ ] Generate structured output: Organize all extracted information according to standard format
+- [ ] Verify completeness: Ensure all key information is included and clearly described
+- [ ] Display output results: Show formatted content to user for easy copying
 
 ---
 

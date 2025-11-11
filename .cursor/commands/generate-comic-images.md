@@ -1,218 +1,230 @@
 # generate-comic-images
 
-## 核心执行步骤
+## Core Execution Steps
 
-### 步骤1：理解需求并分析内容
-- 确定要生成的内容（角色/场景/分镜）、生成范围和类型
-- **角色分析**：
-  - 检查角色是否有多个年龄段描述（如：少年、青年、中年等），需要为**每个年龄段**单独生成基础参考图
-  - 检查角色是否涉及多种场景状态（如：正常、受伤、变装等），需要为**不同场景**生成衍生图
-- **场景分析**：
-  - 检查场景是否有季节变化描述（如：春夏秋冬、晴雨等），需要为**每个季节/天气**生成基础参考图
-  - 场景的中景、近景需要根据季节对应生成
-- **读取并提取关键信息（多层次融合）**：
-  - 读取 `style.md` 提取**全局风格关键词**（画风、色调、光影、线条等，约50字）
-  - 读取当前章节storyboard.md提取**章节氛围关键词**（情绪、色调、节奏等，约30字）
-  - 读取分镜md提取**画面描述**（这是核心内容，包含场景、角色、动作、表情等视觉元素）
-  - 读取相关角色/场景md获取**角色/场景细节**（外貌特征、场景布局等）
-- 检查 outputs 目录中已存在的参考图，避免重复生成
+### Step 1: Understand Requirements and Analyze Content
+- Determine what to generate (characters/scenes/storyboards), generation scope and types
+- **Character Analysis**:
+  - Check if the character has multiple age descriptions (e.g., 少年, 青年, 中年), need to generate separate base reference images for **each age group**
+  - Check if the character involves multiple scene states (e.g., normal, injured, disguised), need to generate derivative images for **different scenarios**
+- **Scene Analysis**:
+  - Check if the scene has seasonal variation descriptions (e.g., 春夏秋冬, sunny/rainy), need to generate base reference images for **each season/weather**
+  - Medium shots and close-ups of scenes need to be generated according to the corresponding season
+- **Read and Extract Key Information (Multi-level Fusion)**:
+  - Read `style.md` to extract **global style keywords** (art style, color tone, lighting, line work, texture, artistic style, etc., about 100 characters)
+  - Read current chapter storyboard.md to extract **chapter atmosphere keywords** (emotion, color tone, pacing, environmental tone, period feel, etc., about 60 characters)
+  - Read storyboard md to extract **scene descriptions** (this is core content, including scenes, characters, actions, expressions and other visual elements)
+  - Read related character/scene md files to get **character/scene details** (appearance features, scene layout, etc.)
+- Check for existing reference images in outputs directory to avoid duplicate generation
 
-### 步骤2：优化提示词并准备生成参数
-- **提示词构建（多层次融合，总长≤300汉字）**：
-  - **基础结构**（角色/场景）：`[全局风格50字] + [具体内容描述] + [年龄段/季节标注]`
-  - **分镜结构**（单张生成，前后帧关联）：
+### Step 2: Optimize Prompts and Prepare Generation Parameters
+- **Prompt Construction (Multi-level fusion, total length ≤600 Chinese characters)**:
+  - **Base Structure** (Characters/Scenes): `[Specific content description 450-480 chars] + [Age/season annotation 20 chars] + [Global style 100 chars]`
+  - **Storyboard Structure** (Single frame generation, consecutive frames related):
     ```
-    前帧：[镜头类型] + [画面描述核心内容120-150字] + [全局风格30字] + [章节氛围20字] + [与前一分镜关联20字(如有)]
-    尾帧：[镜头类型] + [画面描述核心内容120-150字] + [全局风格30字] + [章节氛围20字] + [与前帧延续描述20字]
+    Start Frame: [Shot type 10 chars] + [Core scene description 280-320 chars] + [Relation to previous shot 50 chars (if any)] + [Chapter atmosphere 60 chars] + [Global style 100 chars]
+    End Frame: [Shot type 10 chars] + [Core scene description 280-320 chars] + [Continuation from start frame 50 chars] + [Chapter atmosphere 60 chars] + [Global style 100 chars]
     ```
-  - **画面描述是核心**（最重要）：
-    - **必须包含**storyboard中的"画面描述"内容，这是最核心的视觉元素
-    - 画面描述包括：场景环境、角色外貌动作、表情、物品细节、光影氛围等
-    - 前帧和尾帧的画面描述必须有**连续性和关联性**（同一镜头的开始和结束）
-  - **提取与压缩技巧**：
-    - 画面描述保留核心视觉元素，压缩冗长表达
-    - 全局风格和章节氛围精简为关键词
-    - 删除无关修饰词，用简洁词汇替代
-    - 年龄段/季节必须明确标注（如"少年时期""秋季黄昏"）
-- **准备参考图（最多6张，尽量找满）**：
-  - **角色衍生图**：使用**对应年龄段/场景的正面照**（1张）
-  - **场景衍生图**：使用**对应季节/天气的远景图**（1张）
-  - **分镜前帧**（最多6张）：
-    1. 分镜中出现的角色正面照（对应年龄段，1-3张）
-    2. 分镜对应场景的远景图（对应季节，1张）
-    3. 前一分镜的尾帧（如有连续性，1张）
-    4. 相关场景/角色的其他参考图（如特殊表情、动作等，1-2张）
-  - **分镜尾帧**（最多6张，关键是前帧）：
-    1. **本分镜的前帧**（必须，1张）
-    2. 分镜中出现的角色正面照（对应年龄段，1-3张）
-    3. 分镜对应场景的远景图（对应季节，1张）
-    4. 相关参考图（如特殊表情、动作等，0-1张）
+  - **Scene Description is Core** (Most Important):
+    - **Must include** the "scene description" content from storyboard, this is the most core visual element
+    - Scene description includes: scene environment, character appearance and actions, expressions, object details, lighting atmosphere, etc.
+    - Start frame and end frame scene descriptions must have **continuity and correlation** (beginning and end of the same shot)
+  - **Expansion and Optimization Tips**:
+    - Fully expand core visual elements in scene description, include more details (scene layout, character state, object close-ups, environmental atmosphere, etc.)
+    - Global style can describe art style features, color schemes, lighting effects, line texture, artistic style in detail
+    - Chapter atmosphere can include emotional tone, color preferences, pacing feel, period sense, etc.
+    - Age/season must be clearly marked (e.g., "少年时期", "秋季黄昏")
+    - Fully utilize 600 character space, let model get richer information to generate high-quality images
+- **Prepare Reference Images (max 6, try to fill up)**:
+  - **Character Derivative Images**: Use **corresponding age/scene front view** (1 image)
+  - **Scene Derivative Images**: Use **corresponding season/weather wide shot** (1 image)
+  - **Storyboard Start Frame** (max 6 images):
+    1. Front view of characters appearing in the shot (corresponding age, 1-3 images)
+    2. Wide shot of the corresponding scene (corresponding season, 1 image)
+    3. End frame of previous shot (if there's continuity, 1 image)
+    4. Other reference images of related scenes/characters (e.g., special expressions, actions, 1-2 images)
+  - **Storyboard End Frame** (max 6 images, start frame is key):
+    1. **Start frame of this shot** (required, 1 image)
+    2. Front view of characters appearing in the shot (corresponding age, 1-3 images)
+    3. Wide shot of the corresponding scene (corresponding season, 1 image)
+    4. Related reference images (e.g., special expressions, actions, 0-1 images)
 
-### 步骤3：按顺序分批生成（考虑内容变体）
-**第一轮**：生成基础参考图 - 不使用参考图
-  - 每个角色的**每个年龄段** → 生成对应正面照
-  - 每个场景的**每个季节/天气变化** → 生成对应远景图
-**第二轮**：生成衍生图 - 使用对应的基础参考图
-  - 对应年龄段/场景状态的三视图、表情、动作等
-  - 对应季节的中景、近景等
-**第三轮**：生成分镜（逐帧顺序生成）
-  - **按分镜顺序**，先生成前帧，再生成尾帧
-  - 前帧：使用角色正面照 + 场景远景 + 前一分镜尾帧（如有） + 其他参考图
-  - 尾帧：**必须使用前帧** + 角色正面照 + 场景远景 + 其他参考图
-  - 可并发生成多个分镜的前帧（3-5个），但尾帧必须等对应前帧生成完成
-  - 每次并发不超过5个任务
+### Step 3: Generate in Batches by Order (Consider Content Variants)
+**Round 1**: Generate base reference images - without using reference images
+  - For each character's **each age group** → Generate corresponding front view
+  - For each scene's **each season/weather variation** → Generate corresponding wide shot
+**Round 2**: Generate derivative images - using corresponding base reference images
+  - Three-view diagrams, expressions, actions for corresponding age/scene states
+  - Medium shots, close-ups for corresponding seasons
+**Round 3**: Generate storyboards (frame by frame in sequence)
+  - **By storyboard order**, generate start frame first, then end frame
+  - Start frame: Use character front view + scene wide shot + previous shot end frame (if any) + other reference images
+  - End frame: **Must use start frame** + character front view + scene wide shot + other reference images
+  - Can concurrently generate multiple shots' start frames (3-5), but end frames must wait for corresponding start frames to complete
+  - No more than 5 concurrent tasks at a time
 
-### 步骤4：质量检查
-- 生成完成后，自动读取所有图片进行快速检查
-- **分镜图片必须检查**：
-  - 画面描述符合性：逐项对照storyboard的画面描述
-  - 前帧/尾帧关联性：并排对比，检查场景、角色、光线、动作连贯性
-  - 人物年龄一致性：与角色正面照对比
-  - 画风一致性：与style.md设定对比
-- 仅在发现问题时输出简洁报告（列出不符合项）
-- 问题图片重新生成，将成功的图作为reference_images之一
+### Step 4: Quality Check
+- After generation completes, automatically read all images for quick inspection
+- **Storyboard images must be checked**:
+  - Scene description conformity: Check item by item against storyboard scene descriptions
+  - Start/end frame correlation: Side-by-side comparison, check scene, character, lighting, action continuity
+  - Character age consistency: Compare with character front view
+  - Art style consistency: Compare with style.md settings
+- Only output concise report when issues are found (list non-conforming items)
+- Regenerate problematic images, use successful images as one of reference_images
 
-### 步骤5：最终报告
-- 简洁展示：✅ 成功 X 张 / ❌ 失败 Y 张
-- 按类型分组列出生成的图片路径
-
----
-
-## 重要约束条件
-
-### 生成顺序（必须遵循）
-**角色图**：正面照 → 三视图 → 表情 → 动作（每个都用正面照作参考）
-**场景图**：远景 → 中景 → 近景（每个都用远景作参考）
-**分镜图**：最后生成，单张逐帧生成（前帧 → 尾帧，尾帧必须使用前帧作为参考图）
-
-### 输出路径规范
-**角色图**：`outputs/characters/[角色名]/[类型].png`
-- 正面照：`outputs/characters/[角色名]/正面照.png`
-- 三视图：`outputs/characters/[角色名]/三视图.png`
-- 表情参考：`outputs/characters/[角色名]/表情参考图.png`
-- 动作参考：`outputs/characters/[角色名]/动作参考图.png`
-
-**场景图**：`outputs/scenes/[场景名]/[类型].png`
-- 远景：`outputs/scenes/[场景名]/远景.png`
-- 中景：`outputs/scenes/[场景名]/中景.png`
-- 近景：`outputs/scenes/[场景名]/近景.png`
-
-**分镜图**：`outputs/chapters/[章节名]/[分镜号]-[分镜名称]_[帧号].png`
-- 例如：`outputs/chapters/chapter-001/分镜01-开篇远景_1.png`（前帧）
-- 例如：`outputs/chapters/chapter-001/分镜01-开篇远景_2.png`（尾帧）
-
-### 通用规则
-- 基础参考图（正面照、远景）**不使用**参考图，纯文本生成
-- 衍生图**必须**使用对应的基础参考图，确保一致性
-- 同一角色/场景的所有衍生图使用同一张基础参考图
-- 目录不存在则自动创建
-- 文件名严格按照上述格式，确保文件组织清晰
-
-### 分镜生成特殊规则
-- **单张生成原则**：每次生成一张图（num_images=1），前帧和尾帧分开生成
-- **尾帧强制依赖**：尾帧必须将对应的前帧放入参考图第一位
-- **参考图尽量找满**：每次生成尽量准备6张参考图，包括：
-  - 核心参考（前帧/正面照/远景）
-  - 辅助参考（表情、动作、前序分镜、相关场景等）
-- **连续性处理**：如当前分镜与前一分镜有连续性（场景/角色/镜头相关），将前一分镜尾帧加入前帧的参考图
-- **重试策略**：如需重新生成，将已有的相关成功图片作为参考图
+### Step 5: Final Report
+- Concise display: ✅ Success X images / ❌ Failed Y images
+- List generated image paths grouped by type
 
 ---
 
-## 质量检查关键点
+## Important Constraints
 
-### 画面描述符合性（最关键 🔴）
-- **生成的图片必须符合storyboard中的画面描述**
-- 检查项（逐项对照）：
-  - 场景环境是否正确（如：农家院落、篱笆、土房等）
-  - 角色外貌是否符合（年龄、发型、衣着、体态等）
-  - 角色动作/姿态是否正确（如：拄竹竿、眉头紧皱等）
-  - 物品细节是否准确（如：牛粪、虫儿草等特写物品）
-  - 光影氛围是否符合（如：阴沉天色、荒凉氛围等）
-- **如不符合画面描述，必须重新生成**
+### Generation Order (Must Follow)
+**Character Images**: 正面照 → 三视图 → 表情 → 动作 (each using 正面照 as reference)
+**Scene Images**: 远景 → 中景 → 近景 (each using 远景 as reference)
+**Storyboard Images**: Generated last, single frame by frame (前帧 → 尾帧, 尾帧 must use 前帧 as reference image)
 
-### 前帧/尾帧关联性（分镜专属 🔴）
-- **前帧和尾帧是同一镜头的连续画面，必须高度关联**
-- 检查项（并排对比）：
-  - 场景环境是否一致（同一地点、同一角度）
-  - 角色外貌是否一致（发型、衣着、年龄）
-  - 光线和色调是否一致（不能从白天跳到晚上）
-  - 动作是否连贯（前帧动作的延续，而非突变）
-  - 镜头视角是否一致（不能从远景跳到特写）
-- 常见问题：场景突变、人物换装、光线跳变、镜头跳切
-- **如关联性差，必须重新生成尾帧**（使用前帧作为核心参考）
+### Output Path Specifications
+**Character Images**: `outputs/characters/[角色名]/[类型].png`
+- 正面照: `outputs/characters/[角色名]/正面照.png`
+- 三视图: `outputs/characters/[角色名]/三视图.png`
+- 表情参考: `outputs/characters/[角色名]/表情参考图.png`
+- 动作参考: `outputs/characters/[角色名]/动作参考图.png`
 
-### 人物年龄一致性 🔴
-- **同一角色在不同图片中年龄必须一致**，不能出现 ±5 岁以上的差异
-- 检查项：皱纹深度、脸部饱满度、眼睛状态、头发花白程度、脸型骨架
-- 生成时用同一张正面照作参考图；检查时并排查看正面照和衍生图
-- 如发现不符，立即重新生成
+**Scene Images**: `outputs/scenes/[场景名]/[类型].png`
+- 远景: `outputs/scenes/[场景名]/远景.png`
+- 中景: `outputs/scenes/[场景名]/中景.png`
+- 近景: `outputs/scenes/[场景名]/近景.png`
 
-### 画风一致性 🎨
-- **必须符合 style.md 设定**：线条风格、色彩搭配、光影效果、纹理质感
-- 同一系列图（正面照/三视图/表情/动作）的画风必须高度一致
-- 同一场景的多角度画风要协调
-- 常见问题：颜色突变、线条粗细不一、风格不搭配
+**Storyboard Images**: `outputs/chapters/[章节名]/[分镜号]-[分镜名称]_[帧号].png`
+- Example: `outputs/chapters/chapter-001/分镜01-开篇远景_1.png` (前帧)
+- Example: `outputs/chapters/chapter-001/分镜01-开篇远景_2.png` (尾帧)
 
-### 其他检查
-- **明显瑕疵**：生成失真、异常现象、人物畸形等
-- **细节完整性**：重要道具/物品是否清晰可见
+### General Rules
+- Base reference images (正面照, 远景) **do not use** reference images, pure text generation
+- Derivative images **must** use corresponding base reference images to ensure consistency
+- All derivative images of the same character/scene use the same base reference image
+- Automatically create directories if they don't exist
+- File names strictly follow the above format to ensure clear file organization
+
+### Storyboard Generation Special Rules
+- **Single Image Generation Principle**: Generate one image at a time (num_images=1), 前帧 and 尾帧 generated separately
+- **End Frame Forced Dependency**: 尾帧 must place corresponding 前帧 in first position of reference images
+- **Try to Fill Reference Images**: Try to prepare 6 reference images each time, including:
+  - Core references (前帧/正面照/远景)
+  - Auxiliary references (expressions, actions, previous shots, related scenes, etc.)
+- **Continuity Handling**: If current shot has continuity with previous shot (scene/character/camera related), add previous shot's 尾帧 to 前帧's reference images
+- **Retry Strategy**: If regeneration needed, use existing successful related images as reference images
 
 ---
 
-## 分镜生成最佳实践
+## Quality Check Key Points
 
-### 核心原则
-前帧和尾帧是同一镜头的开始和结束，通过**单张逐帧生成+多参考图**保证：
-- 视觉连贯性：角色外貌、场景风格、光线一致
-- 动作流畅性：尾帧使用前帧作为核心参考，确保过渡自然
-- 时空一致性：通过全局风格+章节氛围融入提示词
-- 生成质量：单张生成比双张生成质量更高
+### Scene Description Conformity (Most Critical 🔴)
+- **Generated images must match the scene descriptions in storyboard**
+- Check items (compare item by item):
+  - Is scene environment correct (e.g., 农家院落, 篱笆, 土房, etc.)
+  - Does character appearance match (age, hairstyle, clothing, posture, etc.)
+  - Are character actions/postures correct (e.g., 拄竹竿, 眉头紧皱, etc.)
+  - Are object details accurate (e.g., close-up items like 牛粪, 虫儿草, etc.)
+  - Does lighting atmosphere match (e.g., 阴沉天色, 荒凉氛围, etc.)
+- **If scene description doesn't match, must regenerate**
 
-### 参考图选择策略（尽量找满6张）
+### Start/End Frame Correlation (Storyboard Specific 🔴)
+- **前帧 and 尾帧 are consecutive frames of the same shot, must be highly correlated**
+- Check items (side-by-side comparison):
+  - Is scene environment consistent (same location, same angle)
+  - Is character appearance consistent (hairstyle, clothing, age)
+  - Are lighting and color tone consistent (can't jump from day to night)
+  - Are actions continuous (continuation of 前帧 action, not sudden change)
+  - Is camera angle consistent (can't jump from wide shot to close-up)
+- Common issues: scene jumps, character costume changes, lighting jumps, camera cuts
+- **If correlation is poor, must regenerate 尾帧** (using 前帧 as core reference)
 
-**前帧参考图（按优先级排序）**：
-1. 分镜中出现的角色正面照（对应年龄段，1-3张）
-2. 分镜对应场景的远景图（对应季节，1张）
-3. 前一分镜的尾帧（如有连续性，1张）
-4. 角色表情/动作参考图（如有特殊需求，0-2张）
-5. 相关场景的中景/近景（如有特殊构图需求，0-1张）
+### Character Age Consistency 🔴
+- **Same character must have consistent age across different images**, cannot have ±5 years difference
+- Check items: wrinkle depth, facial fullness, eye condition, hair graying level, facial bone structure
+- During generation use same 正面照 as reference image; during check view 正面照 and derivative images side by side
+- If inconsistency found, regenerate immediately
 
-**尾帧参考图（按优先级排序）**：
-1. **本分镜的前帧**（必须，第一位，1张）
-2. 分镜中出现的角色正面照（对应年龄段，1-3张）
-3. 分镜对应场景的远景图（对应季节，1张）
-4. 角色表情/动作参考图（如有特殊需求，0-2张）
+### Character/Animal Count and Identity Consistency 🔴
+- **Characters/animals appearing in image must exactly match the count and specified characters in storyboard description**
+- Check items:
+  - Character count: Cannot have extra or missing characters (if storyboard says "三人" must be three people)
+  - Specified characters: Must be characters clearly specified in storyboard (e.g., "李峰" not strangers)
+  - Animal count: Animal type and count must match description (e.g., "一只黑猫" cannot become two cats)
+  - Character traits: Age, gender, identity must match storyboard settings
+- Common issues: extra passersby in background, missing specified characters, wrong animal count, character identity confusion
+- **If inconsistency found, must regenerate**, ensure strict correspondence to storyboard description
 
-### 提示词格式（单张生成）
+### Art Style Consistency 🎨
+- **Must conform to style.md settings**: line style, color matching, lighting effects, texture quality
+- Same series of images (正面照/三视图/表情/动作) must have highly consistent art style
+- Multiple angles of same scene should have coordinated art style
+- Common issues: sudden color changes, inconsistent line thickness, mismatched styles
 
-**结构说明**：
+### Other Checks
+- **Obvious Defects**: Generation distortion, anomalies, character deformities, etc.
+- **Detail Completeness**: Are important props/items clearly visible
+
+---
+
+## Storyboard Generation Best Practices
+
+### Core Principles
+前帧 and 尾帧 are the beginning and end of the same shot, ensured through **single frame-by-frame generation + multiple reference images**:
+- Visual continuity: Character appearance, scene style, lighting consistency
+- Action fluidity: 尾帧 uses 前帧 as core reference to ensure smooth transition
+- Spatial-temporal consistency: Through global style + chapter atmosphere integrated into prompts
+- Generation quality: Single frame generation has higher quality than dual frame generation
+
+### Reference Image Selection Strategy (Try to Fill 6 Images)
+
+**前帧 Reference Images (Prioritized Order)**:
+1. Character 正面照 appearing in the shot (corresponding age, 1-3 images)
+2. Scene 远景 corresponding to the shot (corresponding season, 1 image)
+3. 尾帧 of previous shot (if continuity exists, 1 image)
+4. Character expression/action reference images (if special needs, 0-2 images)
+5. Scene 中景/近景 (if special composition needs, 0-1 image)
+
+**尾帧 Reference Images (Prioritized Order)**:
+1. **前帧 of this shot** (required, first position, 1 image)
+2. Character 正面照 appearing in the shot (corresponding age, 1-3 images)
+3. Scene 远景 corresponding to the shot (corresponding season, 1 image)
+4. Character expression/action reference images (if special needs, 0-2 images)
+
+### Prompt Format (Single Frame Generation)
+
+**Key Points** (English prompts recommended for better model performance):
+- Use natural language description, like telling a story
+- Scene description is the core content (280-320 words)
+- Start frame and end frame must have strong continuity
+- Include shot type, chapter atmosphere, and global style
+- Total length ≤600 words per prompt
+
+**Example (Based on 分镜001, English natural language)**:
+
+**Start Frame:**
 ```
-前帧提示词（总长≤300字）：
-[镜头类型] + [画面描述核心内容120-150字] + [全局风格30字] + [章节氛围20字] + [与前序连续性20字(如有)]
-
-尾帧提示词（总长≤300字）：
-[镜头类型] + [画面描述核心内容120-150字] + [全局风格30字] + [章节氛围20字] + [与前帧延续20字]
+This is a wide shot capturing the full panorama of a dilapidated farmhouse courtyard. The scene shows a crude earthen house standing in the center, with collapsed fence walls scattered across the ground in disarray. In the distance, rolling mountains rise and fall against an overcast, gloomy sky that casts a somber mood over everything. On a small path to the right side of the frame, two small figures dressed in tattered, worn clothes are making their way towards the courtyard. The entire yard has a desolate, abandoned feel, with weeds growing wild throughout the space. This is the opening scene of the story, and the atmosphere is oppressive and heavy, setting a melancholic tone. The artwork combines the signature style of Japanese animator Makoto Shinkai with traditional Chinese classical artistic elements, featuring a gloomy color palette that emphasizes the desolate atmosphere. The composition uses strong contrasts between light and dark areas, with intricate attention to detail throughout, resulting in high-quality, exquisite artwork that draws viewers into this somber world.
 ```
 
-**示例（基于分镜001）**：
+**End Frame:**
 ```
-前帧：
-远景。破败的农家院落全景，简陋的土房，被推倒的篱笆院墙散落一地。远处山峦起伏，天色阴沉灰暗。右侧小径上，两个衣衫褴褛的小人影正走向院落。院子荒凉，杂草丛生。采用日系新海诚风格与中国古风元素融合，阴沉色调、荒凉氛围、明暗对比、精细细节、高质量精美画面。
-
-尾帧：
-远景。同一农家院落全景，环境不变。两个人影已走近院落入口，田林拄着竹竿，老头儿在前。破败的篱笆更加清晰，土房门半开。天色依然阴沉。采用日系新海诚风格与中国古风元素融合，阴沉色调、荒凉氛围、明暗对比、精细细节、高质量精美画面。与前帧环境一致，人物位置变化。
+This is a wide shot showing the same farmhouse courtyard panorama from the same camera angle. The environment and overall composition remain unchanged from the previous moment. The two figures have now approached much closer to the courtyard entrance - we can see 田林 more clearly now, leaning on a bamboo pole for support, with the elderly man walking slightly ahead of him. The dilapidated fence is now more clearly visible in the foreground, and the earthen house's door stands half-open, suggesting abandonment. The sky overhead remains just as gloomy and overcast as before. Everything about the environment is consistent with the start frame - same lighting, same desolate atmosphere - only the positions of the two figures have changed as they've moved closer. The oppressive, heavy atmosphere continues to pervade the scene. The artwork maintains the same fusion of Japanese Makoto Shinkai's style with Chinese classical elements, keeping the gloomy color tones and desolate mood. The strong light-dark contrasts and intricate details remain consistent, ensuring high-quality, exquisite rendering throughout.
 ```
 
-**关键要点**：
-- 画面描述是核心，必须详细且准确
-- 前后帧画面描述要有连续性（同一场景、角色动作延续）
-- 全局风格和章节氛围保持一致，确保整体画风统一
-- 明确标注与前序画面的关联
+**Key Points**:
+- Use complete sentences and natural flow, not fragmented phrases
+- Describe the scene as if explaining it to someone who can't see it
+- Emphasize continuity between start and end frames
+- Integrate style elements naturally into the description
 
-### 生成策略
-- **按分镜顺序生成**：确保可以使用前序分镜作为参考
-- **前帧批量，尾帧逐个**：
-  - 可并发生成3-5个分镜的前帧
-  - 等所有前帧完成后，逐个生成对应尾帧（或小批量并发）
-- **参考图动态积累**：后续分镜可使用前面已生成的分镜尾帧作为参考
+### Generation Strategy
+- **Generate by Storyboard Order**: Ensure can use previous shots as reference
+- **前帧 in Batches, 尾帧 One by One**:
+  - Can concurrently generate 3-5 shots' 前帧
+  - After all 前帧 complete, generate corresponding 尾帧 one by one (or small batch concurrency)
+- **Dynamic Reference Image Accumulation**: Subsequent shots can use previously generated shot 尾帧 as reference

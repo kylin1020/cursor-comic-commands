@@ -1,170 +1,170 @@
 # split-novel-chapters
 
-## 📋 任务清单
+## 📋 Task Checklist
 
-执行此命令时，请按照以下顺序完成任务，每完成一项就勾选：
+When executing this command, complete tasks in the following order and check off each completed item:
 
-### 阶段1：文件读取与分析
-- [ ] 接收输入文件：确认用户提供的txt文件路径，读取文件内容
-- [ ] 检测文件编码：自动检测文件编码（UTF-8、GBK、GB2312等）
-- [ ] 预览文件结构：展示文件的前50-100行，让用户了解文件结构
-- [ ] 识别章节模式：分析并识别章节分隔符的模式（第X章、Chapter X、卷X、特殊分隔符等）
-- [ ] 展示识别结果：列出识别到的前5-10个章节标题，供用户确认是否正确
+### Stage 1: File Reading and Analysis
+- [ ] Receive input file: Confirm txt file path provided by user, read file content
+- [ ] Detect file encoding: Automatically detect file encoding (UTF-8, GBK, GB2312, etc.)
+- [ ] Preview file structure: Display first 50-100 lines of file to let user understand file structure
+- [ ] Identify chapter pattern: Analyze and identify chapter delimiter patterns (第X章, Chapter X, 卷X, special delimiters, etc.)
+- [ ] Display recognition results: List first 5-10 recognized chapter titles for user confirmation
 
-### 阶段2：确认拆分策略
-- [ ] 确认章节识别：询问用户识别的章节是否正确
-- [ ] 调整识别规则：如果不正确，让用户提供正确的章节示例或自定义正则表达式
-- [ ] 预估拆分结果：告知用户将生成多少个文件，以及文件命名规则
-- [ ] 确认输出目录：确认章节文件的输出位置（默认为`chapters/`目录）
+### Stage 2: Confirm Splitting Strategy
+- [ ] Confirm chapter recognition: Ask user if recognized chapters are correct
+- [ ] Adjust recognition rules: If incorrect, let user provide correct chapter examples or custom regular expressions
+- [ ] Estimate splitting results: Inform user how many files will be generated and file naming rules
+- [ ] Confirm output directory: Confirm output location for chapter files (default is `chapters/` directory)
 
-### 阶段3：生成并执行拆分脚本
-- [ ] 动态生成脚本：根据识别到的章节格式，生成专门的Python/Bash拆分脚本
-- [ ] 创建输出目录：在工作目录下创建`chapters/`目录（如不存在）
-- [ ] 执行拆分操作：运行生成的脚本，将txt按章节拆分成独立的.md文件
-- [ ] 规范化文件名：确保文件名按照章节顺序命名（如`chapter_001.md`、`chapter_002.md`等）
+### Stage 3: Generate and Execute Splitting Script
+- [ ] Dynamically generate script: Generate dedicated Python/Bash splitting script based on recognized chapter format
+- [ ] Create output directory: Create `chapters/` directory in working directory (if not exist)
+- [ ] Execute splitting operation: Run generated script to split txt into independent .md files by chapter
+- [ ] Standardize filenames: Ensure filenames are named according to chapter order (e.g., `chapter_001.md`, `chapter_002.md`, etc.)
 
-### 阶段4：验证与收尾
-- [ ] 验证输出结果：检查生成的文件数量和内容完整性
-- [ ] 展示拆分结果：列出所有生成的章节文件及其标题
-- [ ] 生成索引文件：创建`chapters/README.md`包含所有章节的目录索引
-- [ ] 清理临时文件：删除过程中产生的脚本和临时文件
-- [ ] 提供后续建议：告知用户可以使用`/summarize-novel`命令继续处理
+### Stage 4: Verification and Finishing
+- [ ] Verify output results: Check number of generated files and content completeness
+- [ ] Display splitting results: List all generated chapter files and their titles
+- [ ] Generate index file: Create `chapters/README.md` containing table of contents index for all chapters
+- [ ] Clean temporary files: Delete scripts and temporary files generated during process
+- [ ] Provide follow-up suggestions: Inform user they can use `/summarize-novel` command to continue processing
 
 ---
 
-## 执行说明
+## Execution Instructions
 
-我需要你帮我将一个小说txt文件按章节拆分成独立的.md文件。
+I need you to help me split a novel txt file by chapters into independent .md files.
 
-**⚠️ 重要说明**：
-由于每个小说txt文件的格式可能完全不同，本命令采用"分析-确认-动态生成脚本"的方式，而不是使用预设的固定脚本。这样可以确保拆分的准确性。
+**⚠️ Important Note**:
+Since each novel txt file's format may be completely different, this command uses an "analyze-confirm-dynamically generate script" approach rather than using a preset fixed script. This ensures splitting accuracy.
 
-### 第一步：提供文件路径并读取内容
+### Step 1: Provide File Path and Read Content
 
-请提供小说txt文件的路径（可以是相对路径或绝对路径）。
+Please provide the path to the novel txt file (can be relative or absolute path).
 
-**示例**：
+**Examples**:
 - `/Users/kylin/projects/novel.txt`
 - `./novel.txt`
 - `小说名称.txt`
 
-我会先读取文件的前50-100行，展示给你查看文件结构。
+I will first read the first 50-100 lines of the file and show you the file structure.
 
-### 第二步：分析并识别章节结构
+### Step 2: Analyze and Identify Chapter Structure
 
-我会尝试识别以下常见的章节分隔模式：
+I will try to identify the following common chapter delimiter patterns:
 
-1. **数字章节格式**：
-   - `第一章`、`第二章`、`第三章`... （中文数字）
-   - `第1章`、`第2章`、`第3章`... （阿拉伯数字）
-   - `第001章`、`第002章`... （带零填充）
+1. **Numeric Chapter Formats**:
+   - `第一章`, `第二章`, `第三章`... (Chinese numbers)
+   - `第1章`, `第2章`, `第3章`... (Arabic numbers)
+   - `第001章`, `第002章`... (with zero padding)
 
-2. **英文章节格式**：
-   - `Chapter 1`、`Chapter 2`...
-   - `CHAPTER ONE`、`CHAPTER TWO`...
+2. **English Chapter Formats**:
+   - `Chapter 1`, `Chapter 2`...
+   - `CHAPTER ONE`, `CHAPTER TWO`...
 
-3. **卷/部分格式**：
-   - `第一卷`、`第二卷`...
-   - `第一部分`、`第二部分`...
+3. **Volume/Part Formats**:
+   - `第一卷`, `第二卷`...
+   - `第一部分`, `第二部分`...
 
-4. **混合格式**：
+4. **Mixed Formats**:
    - `第一章 标题名称`
    - `Chapter 1: 标题名称`
    - `001 标题名称`
 
-5. **自定义分隔符**：
-   - 用户可以指定特定的正则表达式或分隔符
+5. **Custom Delimiters**:
+   - User can specify specific regular expressions or delimiters
 
-### 第三步：确认分隔规则并查看预览
+### Step 3: Confirm Delimiter Rules and View Preview
 
-分析完成后，我会展示：
-- 识别到的章节数量
-- 前5-10个章节的标题示例
-- 使用的分隔规则（正则表达式）
+After analysis completes, I will display:
+- Number of chapters recognized
+- Title examples of first 5-10 chapters
+- Delimiter rules used (regular expressions)
 
-**如果识别准确**：
-- 直接确认，进入下一步
+**If recognition is accurate**:
+- Directly confirm and proceed to next step
 
-**如果识别不准确**，你可以：
-1. 提供几个正确的章节标题示例
-2. 告诉我章节标题的特征（例如：每章标题都以"=="开头，或者空行后跟数字）
-3. 如果熟悉正则表达式，可以直接提供正则模式
-4. 描述章节之间的分隔特征
+**If recognition is inaccurate**, you can:
+1. Provide several correct chapter title examples
+2. Tell me characteristics of chapter titles (e.g., each chapter title starts with "==", or blank line followed by number)
+3. If familiar with regular expressions, can directly provide regex pattern
+4. Describe delimiter characteristics between chapters
 
-### 第四步：动态生成并执行拆分脚本
+### Step 4: Dynamically Generate and Execute Splitting Script
 
-根据确认的章节格式，我会：
-1. **动态生成专门的Python脚本**（或Bash脚本），针对你的txt文件格式定制
-2. 在当前目录创建`chapters/`文件夹（如果不存在）
-3. 执行脚本，将每个章节保存为独立的`.md`文件
-4. 文件命名格式：`chapter_001.md`、`chapter_002.md`...（三位数字，便于排序）
-5. 每个文件顶部包含章节标题作为Markdown一级标题
+Based on confirmed chapter format, I will:
+1. **Dynamically generate dedicated Python script** (or Bash script), customized for your txt file format
+2. Create `chapters/` folder in current directory (if not exist)
+3. Execute script to save each chapter as independent `.md` file
+4. File naming format: `chapter_001.md`, `chapter_002.md`... (three digits for easy sorting)
+5. Each file's top contains chapter title as Markdown level-1 heading
 
-**脚本特点**：
-- 根据实际格式定制，不是通用模板
-- 处理文件编码问题（自动检测UTF-8/GBK等）
-- 智能处理空行和格式问题
-- 执行完成后自动清理
+**Script Characteristics**:
+- Customized based on actual format, not generic template
+- Handle file encoding issues (automatically detect UTF-8/GBK, etc.)
+- Intelligently handle blank lines and format issues
+- Automatically clean up after execution completes
 
-### 第五步：验证并生成索引
+### Step 5: Verify and Generate Index
 
-拆分完成后，我会：
-1. 验证生成的文件完整性
-2. 展示所有章节文件列表
-3. 自动生成`chapters/README.md`索引文件，包含：
-   - 章节总数统计
-   - 所有章节的目录列表（带标题和文件链接）
-   - 每个章节的字数统计（可选）
-4. 清理临时生成的脚本文件
+After splitting completes, I will:
+1. Verify generated file completeness
+2. Display all chapter file lists
+3. Automatically generate `chapters/README.md` index file, containing:
+   - Chapter total count statistics
+   - Table of contents list for all chapters (with titles and file links)
+   - Word count statistics for each chapter (optional)
+4. Clean up temporarily generated script files
 
 ---
 
-## 🔧 动态脚本生成说明
+## 🔧 Dynamic Script Generation Instructions
 
-### 核心理念：按需定制，而非通用模板
+### Core Philosophy: Customization on Demand, Not Generic Template
 
-本命令**不使用预设的固定脚本**，而是根据你的txt文件的实际格式，**动态生成专门的拆分脚本**。
+This command **does not use preset fixed scripts**, but **dynamically generates dedicated splitting scripts** based on your txt file's actual format.
 
-### 为什么要动态生成？
+### Why Dynamic Generation?
 
-小说txt文件的格式千差万别：
-- 有的用"第一章"，有的用"Chapter 1"
-- 有的章节标题独占一行，有的前后有装饰符号（如"===第一章==="）
-- 有的有空行分隔，有的紧凑排列
-- 有的编码是UTF-8，有的是GBK
-- 有的有目录索引，有的没有
+Novel txt file formats vary greatly:
+- Some use "第一章", some use "Chapter 1"
+- Some chapter titles occupy one line alone, some have decorative symbols before and after (like "===第一章===")
+- Some have blank line separators, some are compactly arranged
+- Some encoding is UTF-8, some is GBK
+- Some have table of contents index, some don't
 
-**固定脚本无法应对所有情况**，只有分析实际文件后生成针对性的脚本，才能保证拆分准确。
+**Fixed scripts cannot handle all situations**, only by analyzing actual files and generating targeted scripts can splitting accuracy be guaranteed.
 
-### 脚本生成流程
+### Script Generation Process
 
-1. **读取分析**：读取txt文件的前100行，分析章节模式
-2. **模式识别**：使用正则表达式匹配章节标题
-3. **用户确认**：展示识别结果，确保准确
-4. **生成脚本**：根据确认的模式，生成定制的Python或Bash脚本
-5. **执行拆分**：运行脚本完成拆分
-6. **清理环境**：删除临时脚本文件
+1. **Read and Analyze**: Read first 100 lines of txt file, analyze chapter patterns
+2. **Pattern Recognition**: Use regular expressions to match chapter titles
+3. **User Confirmation**: Display recognition results to ensure accuracy
+4. **Generate Script**: Based on confirmed patterns, generate customized Python or Bash script
+5. **Execute Splitting**: Run script to complete splitting
+6. **Clean Environment**: Delete temporary script files
 
-### 脚本通常包含的功能
+### Functions Usually Included in Script
 
-根据实际需求，生成的脚本可能包括：
+Based on actual needs, generated script may include:
 
-1. **编码检测**：自动检测并正确读取文件编码
-2. **章节识别**：使用定制的正则表达式匹配章节
-3. **内容提取**：提取每个章节的完整内容
-4. **格式清理**：去除多余空行、规范化格式
-5. **文件输出**：按顺序生成.md文件
-6. **错误处理**：处理边界情况和异常
+1. **Encoding Detection**: Automatically detect and correctly read file encoding
+2. **Chapter Recognition**: Use customized regular expressions to match chapters
+3. **Content Extraction**: Extract complete content of each chapter
+4. **Format Cleaning**: Remove excess blank lines, standardize format
+5. **File Output**: Generate .md files in order
+6. **Error Handling**: Handle boundary cases and exceptions
 
-### 工具选择
+### Tool Selection
 
-- **Python脚本**：适用于复杂格式，需要编码处理、正则匹配等
-- **Bash脚本**：适用于简单固定格式，使用`csplit`、`awk`等工具
-- **混合方案**：复杂情况下结合多种工具
+- **Python Script**: Suitable for complex formats, needs encoding handling, regex matching, etc.
+- **Bash Script**: Suitable for simple fixed formats, uses `csplit`, `awk`, etc.
+- **Hybrid Solution**: Combine multiple tools in complex situations
 
-### 示例：不同格式的处理方式
+### Example: Processing Methods for Different Formats
 
-**格式1：标准章节格式**
+**Format 1: Standard Chapter Format**
 ```
 第一章 开端
 正文内容...
@@ -172,18 +172,18 @@
 第二章 发展
 正文内容...
 ```
-→ 使用简单的正则匹配 `^第.+章`
+→ Use simple regex matching `^第.+章`
 
-**格式2：装饰性格式**
+**Format 2: Decorative Format**
 ```
 ============
   第001章
 ============
 正文内容...
 ```
-→ 需要识别装饰符号，可能需要多行匹配
+→ Need to recognize decorative symbols, may need multi-line matching
 
-**格式3：混合格式**
+**Format 3: Mixed Format**
 ```
 Chapter 1: 开端
 
@@ -192,65 +192,65 @@ Chapter 1: 开端
 --- Chapter 2: 发展 ---
 正文内容...
 ```
-→ 需要灵活的正则表达式，处理不规则模式
+→ Need flexible regular expressions to handle irregular patterns
 
 ---
 
-## 📌 常见问题处理
+## 📌 Common Issue Handling
 
-### 问题1：章节识别不准确
+### Issue 1: Chapter Recognition Inaccurate
 
-**原因**：小说格式不规范，章节标记不统一
+**Cause**: Novel format is non-standard, chapter markers are inconsistent
 
-**解决方案**：
-1. 让用户提供几个实际的章节标题示例
-2. 根据示例自定义正则表达式
-3. 如果章节标记完全不规则，建议用户手动标注后再拆分
+**Solutions**:
+1. Let user provide several actual chapter title examples
+2. Customize regular expression based on examples
+3. If chapter markers are completely irregular, recommend user manually annotate before splitting
 
-### 问题2：文件编码错误
+### Issue 2: File Encoding Error
 
-**原因**：txt文件可能使用GBK、GB2312等编码
+**Cause**: txt file may use GBK, GB2312, etc. encoding
 
-**解决方案**：
-1. 使用`chardet`库自动检测编码
-2. 提示用户转换文件编码为UTF-8
-3. 脚本自动尝试多种编码方式
+**Solutions**:
+1. Use `chardet` library to automatically detect encoding
+2. Prompt user to convert file encoding to UTF-8
+3. Script automatically tries multiple encoding methods
 
-### 问题3：章节内容缺失
+### Issue 3: Chapter Content Missing
 
-**原因**：某些章节可能只有标题没有内容
+**Cause**: Some chapters may only have titles without content
 
-**解决方案**：
-1. 生成时保留这些章节文件，标记为"待补充"
-2. 在索引文件中特别标注
-3. 提醒用户检查原始文件
+**Solutions**:
+1. Keep these chapter files during generation, mark as "待补充" (to be supplemented)
+2. Specially annotate in index file
+3. Remind user to check original file
 
-### 问题4：文件名冲突
+### Issue 4: Filename Conflict
 
-**原因**：目标目录已存在同名文件
+**Cause**: Target directory already has files with same name
 
-**解决方案**：
-1. 询问用户是否覆盖
-2. 提供备份选项
-3. 或添加时间戳避免冲突
+**Solutions**:
+1. Ask user whether to overwrite
+2. Provide backup option
+3. Or add timestamp to avoid conflict
 
 ---
 
-## 输出示例
+## Output Example
 
-### 成功输出示例：
+### Successful Output Example:
 
 ```
-✅ 章节拆分完成！
+✅ Chapter splitting completed!
 
-📊 统计信息：
-- 原始文件：novel.txt (1.2 MB)
-- 识别章节：156 章
-- 输出目录：chapters/
-- 生成文件：156 个 .md 文件
-- 索引文件：chapters/README.md
+📊 Statistics:
+- Original file: novel.txt (1.2 MB)
+- Recognized chapters: 156 chapters
+- Output directory: chapters/
+- Generated files: 156 .md files
+- Index file: chapters/README.md
 
-📁 输出文件列表（前10个）：
+📁 Output file list (first 10):
   chapter_001.md - 第一章 开端
   chapter_002.md - 第二章 相遇
   chapter_003.md - 第三章 转折
@@ -259,68 +259,68 @@ Chapter 1: 开端
   ...
   chapter_156.md - 第一百五十六章 终章
 
-💡 下一步建议：
-1. 查看 chapters/README.md 浏览完整章节目录
-2. 使用 /summarize-novel 命令分析小说内容
-3. 使用 /init-comic 命令初始化漫画项目
+💡 Next step suggestions:
+1. View chapters/README.md to browse complete chapter directory
+2. Use /summarize-novel command to analyze novel content
+3. Use /init-comic command to initialize comic project
 ```
 
 ---
 
-## 💡 使用建议
+## 💡 Usage Suggestions
 
-### 工作流程推荐
+### Recommended Workflow
 
-1. **第一步**：使用本命令（`/split-novel-chapters`）拆分txt文件
-2. **第二步**：使用`/summarize-novel`命令分析拆分后的章节，提取角色和场景
-3. **第三步**：使用`/init-comic`命令初始化漫画项目
-4. **第四步**：使用`/generate-comic-images`命令生成角色和场景图片
+1. **Step 1**: Use this command (`/split-novel-chapters`) to split txt file
+2. **Step 2**: Use `/summarize-novel` command to analyze split chapters, extract characters and scenes
+3. **Step 3**: Use `/init-comic` command to initialize comic project
+4. **Step 4**: Use `/generate-comic-images` command to generate character and scene images
 
-### 注意事项
+### Notes
 
-1. **原始文件备份**：拆分前建议备份原始txt文件
-2. **章节完整性**：拆分后请检查第一章和最后一章是否完整
-3. **特殊字符处理**：文件名中的特殊字符会被替换为下划线
-4. **大文件处理**：对于超大文件（>10MB），拆分可能需要几秒到几十秒
+1. **Original File Backup**: Recommend backing up original txt file before splitting
+2. **Chapter Completeness**: Check if first and last chapters are complete after splitting
+3. **Special Character Handling**: Special characters in filenames will be replaced with underscores
+4. **Large File Processing**: For very large files (>10MB), splitting may take seconds to tens of seconds
 
-### 文件命名规则
+### File Naming Rules
 
-- **默认格式**：`chapter_001.md`、`chapter_002.md`...
-- **带标题格式**（可选）：`chapter_001_开端.md`、`chapter_002_相遇.md`...
-- **保持简洁**：文件名避免过长，标题信息保存在文件内容中
+- **Default Format**: `chapter_001.md`, `chapter_002.md`...
+- **With Title Format** (optional): `chapter_001_开端.md`, `chapter_002_相遇.md`...
+- **Keep Concise**: Avoid overly long filenames, save title information in file content
 
 ---
 
-## 🛠️ 技术细节
+## 🛠️ Technical Details
 
-### 支持的文件编码
-- UTF-8（推荐）
+### Supported File Encodings
+- UTF-8 (recommended)
 - UTF-8 with BOM
-- GBK / GB2312（简体中文）
-- Big5（繁体中文）
+- GBK / GB2312 (Simplified Chinese)
+- Big5 (Traditional Chinese)
 
-### 章节识别正则表达式示例
+### Chapter Recognition Regular Expression Examples
 
 ```python
-# 中文数字章节
+# Chinese number chapters
 r'^第[一二三四五六七八九十百千零0-9]+章'
 
-# 阿拉伯数字章节
+# Arabic number chapters
 r'^第\s*\d+\s*章'
 
-# 英文章节
+# English chapters
 r'^Chapter\s+\d+'
 
-# 卷/部分
+# Volumes/parts
 r'^第[一二三四五六七八九十百千零0-9]+[卷部]'
 
-# 带标题的章节
+# Chapters with titles
 r'^第\d+章\s+.+'
 ```
 
-### 输出文件格式
+### Output File Format
 
-每个章节文件的格式：
+Format of each chapter file:
 
 ```markdown
 # 第一章 开端
@@ -330,14 +330,14 @@ r'^第\d+章\s+.+'
 
 ---
 
-## 🎯 总结
+## 🎯 Summary
 
-本命令专门用于预处理小说txt文件，是整个漫画制作流程的第一步。它能够：
+This command is specifically designed for preprocessing novel txt files and is the first step in the entire comic production workflow. It can:
 
-✅ 智能识别多种章节格式
-✅ 自动拆分并规范化命名
-✅ 生成章节索引便于管理
-✅ 为后续工作流程做好准备
+✅ Intelligently recognize multiple chapter formats
+✅ Automatically split and standardize naming
+✅ Generate chapter index for easy management
+✅ Prepare for subsequent workflow
 
-完成拆分后，你就可以使用其他命令继续处理了！
+After completing splitting, you can use other commands to continue processing!
 

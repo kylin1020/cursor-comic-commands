@@ -1,93 +1,85 @@
 # storyboard-chapter
 
-## 📋 任务流程
+## 📋 Task Flow
 
-- [ ] 接收并分析章节内容，确定分镜数量和节奏
-- [ ] 按场景、情节、情绪拆分镜头
-- [ ] 为每个分镜编写脚本（镜头类型、画面、动作、对白、情绪）
-- [ ] 生成前帧/尾帧图片提示词
-- [ ] 生成视频片段提示词
-- [ ] 输出完整分镜脚本到 `storyboard/chapter-<章节号>/storyboard.md`
-
----
-
-## 📌 分镜拆分原则
-
-### 何时切镜
-- 地点改变 → 新镜头
-- 时间跳跃 → 新镜头
-- 视角大幅变化 → 新镜头
-
-### 节奏控制
-- 快节奏动作：3-5秒/镜头
-- 对话场景：5-10秒/镜头
-- 情感场景：10-15秒/镜头
-
-### 镜头类型
-- **特写**：强调表情、细节、情绪
-- **近景**：肩部以上，对话
-- **中景**：腰部以上，动作互动
-- **远景**：全身，环境关系
-- **全景**：大场景，空间感
-
-### 转场方式
-- 直接切换（Cut）：快速自然
-- 淡入淡出（Fade）：时间流逝
-- 叠化（Dissolve）：时空转换、回忆
-- 匹配剪辑（Match Cut）：视觉过渡
+- [ ] Receive and analyze chapter content, determine storyboard quantity and pacing
+- [ ] Split shots by scene, plot, emotion
+- [ ] Write script for each storyboard (shot type, scene, action, dialogue, emotion)
+- [ ] Generate start/end frame image prompts
+- [ ] Generate video clip prompts
+- [ ] Output complete storyboard script to `storyboard/chapter-<章节号>/storyboard.md`
 
 ---
 
-## 📐 提示词编写规范
+## 📌 Storyboard Splitting Principles
 
-### 前帧/尾帧图片提示词
+### When to Cut Shot
+- Location changes → New shot
+- Time jumps → New shot
+- Viewpoint changes significantly → New shot
 
-**结构**：
+### Pacing Control
+- Fast-paced action: 3-5 seconds/shot
+- Dialogue scenes: 5-10 seconds/shot
+- Emotional scenes: 10-15 seconds/shot
+
+### Shot Types
+- **Close-up**: Emphasize expressions, details, emotions
+- **Close shot**: Above shoulders, dialogue
+- **Medium shot**: Above waist, action interaction
+- **Wide shot**: Full body, environmental relationships
+- **Panorama**: Large scenes, sense of space
+
+### Transition Methods
+- Direct cut (Cut): Fast and natural
+- Fade in/out (Fade): Time passage
+- Dissolve: Space-time transition, flashback
+- Match cut: Visual transition
+
+---
+
+## 📐 Prompt Writing Specifications
+
+### Start/End Frame Image Prompts
+
+**Key Points** (English prompts recommended for better model performance):
+- Use natural language description, like telling a story
+- Reference character features from `characters/`
+- Reference scene features from `scenes/`
+- Follow `style.md` style definition
+- 300-500 words (English)
+
+**Example (English, natural language)**:
 ```
-[镜头类型]。[角色描述+动作+表情]。[场景环境]。[光线氛围]。[镜头角度构图]。[风格要求]。
+This is a medium shot showing a 20-year-old young man named 李小明 standing inside a cozy cafe. He has short black hair and brown eyes, wearing a simple white shirt and dark pants. His hands rest naturally at his sides, and his expression is calm as he looks forward. The cafe around him has a warm, inviting atmosphere with wooden tables and chairs, and soft warm-toned lighting creates a comfortable ambiance. The camera captures him from the front, with his figure positioned slightly left of center in the frame. The artwork follows a Japanese anime style similar to Makoto Shinkai's work, featuring clear, precise line work, bright and pleasant colors, and high-quality detailed rendering.
 ```
 
-**要点**：
-- 引用 `characters/` 中的角色特征
-- 引用 `scenes/` 中的场景特征
-- 遵循 `style.md` 风格定义
-- 300-500字
+### Video Clip Prompts
 
-**示例**：
-```
-中景。20岁的李小明，短黑发，棕色眼睛，白色衬衫，深色长裤。站在咖啡厅内，双手自然放在身体两侧，表情平静，目光看向前方。背景是温馨咖啡厅，木质桌椅，暖色调灯光。正面拍摄，角色居中偏左。日系动漫风格，线条清晰，色彩明亮。
-```
+**Key Points** (English prompts recommended for better model performance):
+- Use natural language to describe the dynamic transition process
+- Clearly specify camera movement and character actions
+- Describe emotional and environmental changes
+- 200-400 words (English)
 
-### 视频片段提示词
-
-**结构**：
+**Example (English, natural language)**:
 ```
-[镜头类型+运动方式]。[从前帧到尾帧的动作变化]。[表情情绪变化过程]。[环境光影变化]。[时长+节奏]。[风格要求]。
-```
-
-**要点**：
-- 描述动态过渡过程（非静态）
-- 明确镜头运动（推/拉/摇/移/固定）
-- 200-400字
-
-**示例**：
-```
-中景固定镜头。李小明从平静站立开始，身体微微前倾，右手从身侧慢慢抬起指向前方。表情从平静逐渐变为惊讶，眼睛睁大，嘴巴微张。背景咖啡厅光线保持稳定。4秒，动作节奏适中。日系动漫风格，动作流畅自然。
+This is a medium shot with a fixed camera position. The scene begins with 李小明 standing calmly in the cafe. As the moment unfolds, his body begins to lean slightly forward, and his right hand slowly rises from his side, eventually pointing forward. His facial expression undergoes a gradual transformation - starting from a calm, neutral look, his eyes begin to widen in surprise, and his mouth opens slightly in reaction to something he sees. Throughout this 4-second sequence, the background cafe lighting remains stable and consistent, maintaining the warm atmosphere. The pacing of his movements is moderate and natural, neither rushed nor too slow. The animation follows a Japanese anime style with smooth, fluid character movements that feel organic and believable.
 ```
 
 ---
 
-## 🎬 分镜脚本输出格式
+## 🎬 Storyboard Script Output Format
 
-输出文件：`outputs/storyboard/chapter-<章节号>/storyboard.md`
+Output file: `outputs/storyboard/chapter-<章节号>/storyboard.md`
 
 ```markdown
 # 第X章分镜脚本
 
-**章节标题**：<标题>
-**章节概要**：<简要描述>
-**总分镜数**：<数量>
-**预估时长**：<分钟>
+**章节标题**: <标题>
+**章节概要**: <简要描述>
+**总分镜数**: <数量>
+**预估时长**: <分钟>
 
 ---
 
@@ -105,85 +97,85 @@
 
 ### 【分镜 001】
 
-**镜头类型**：远景
-**场景**：咖啡厅（参考：`scenes/咖啡厅.md`）
-**角色**：李小明（参考：`characters/李小明.md`）
-**时长**：5秒
-**转场**：淡入
+**镜头类型**: 远景
+**场景**: 咖啡厅（参考：`scenes/咖啡厅.md`）
+**角色**: 李小明（参考：`characters/李小明.md`）
+**时长**: 5秒
+**转场**: 淡入
 
-**画面描述**：
+**画面描述**:
 咖啡厅全景，李小明从门口走进，暖色调灯光营造温馨氛围。
 
-**对白/旁白**：
+**对白/旁白**:
 （背景音乐：轻柔爵士乐）
 
-**情绪**：平静、温馨
+**情绪**: 平静、温馨
 
 ---
 
-#### 前帧提示词
+#### Start Frame Prompt (English, natural language)
 
 ```
-远景。温馨咖啡厅内景，木质桌椅、吧台、几位顾客。暖色灯光。右侧玻璃门刚打开，20岁李小明（短黑发，白色衬衫）刚走进门口。固定机位，俯视角度。日系动漫风格，色彩温暖。
-```
-
----
-
-#### 尾帧提示词
-
-```
-远景。同一咖啡厅内景，环境不变。李小明已走到画面中央偏右，正朝左侧座位走去，背影自然。玻璃门已关闭。固定机位，俯视角度。日系动漫风格，色彩温暖。
+This is a wide shot showing a cozy cafe interior from an overhead angle. The scene captures a warm, inviting space with wooden tables and chairs arranged throughout, a bar counter visible in the background, and a few customers seated here and there. The lighting is warm and welcoming. On the right side of the frame, a glass door has just opened, and a 20-year-old young man named 李小明 is entering through the doorway. He has short black hair and is wearing a white shirt. The camera position is fixed, giving us a bird's-eye view of the entire scene. The artwork is rendered in a Japanese anime style with a warm color palette and high-quality detailed rendering.
 ```
 
 ---
 
-#### 视频提示词
+#### End Frame Prompt (English, natural language)
 
 ```
-远景固定机位，俯视角度。画面从淡入开始。李小明推开玻璃门走进咖啡厅，从右侧边缘走到中央偏右，朝左侧座位走去。背景顾客有细微动作。暖色灯光稳定，氛围温馨。5秒，节奏从容。日系动漫风格，动作流畅。
+This is a wide shot of the same cafe interior, maintaining the overhead angle and fixed camera position. The environment remains unchanged from before - the same cozy atmosphere, wooden furniture, and warm lighting. 李小明 has now walked further into the space and appears in the center-right area of the frame. We see him from behind as he heads towards the seating area on the left side of the cafe. The glass door through which he entered is now closed. Everything else in the scene remains consistent with the previous moment. The artwork continues in the same Japanese anime style with warm color tones and detailed, high-quality rendering.
+```
+
+---
+
+#### Video Prompt (English, natural language)
+
+```
+This is a 5-second sequence captured in a wide shot from a fixed overhead camera position. The scene begins with a gentle fade-in effect. We see 李小明 push open the glass door and step into the cafe. He walks steadily from the right edge of the frame towards the center-right area, making his way towards the seating area on the left side. As he moves through the space, the other customers in the background show subtle, natural movements - small gestures and slight shifts that bring life to the scene. The warm lighting throughout the cafe remains stable and consistent, maintaining the cozy, welcoming atmosphere. The pacing of the entire sequence is relaxed and unhurried, allowing viewers to take in the environment. The animation follows a Japanese anime style with smooth, fluid character movements that feel natural and believable.
 ```
 
 ---
 
 ### 【分镜 002】
-...（以此类推）
+... (and so on)
 ```
 
 ---
 
-## 💡 使用指南
+## 💡 Usage Guide
 
-### 提供章节信息
+### Provide Chapter Information
 
-需要提供：
-1. **章节编号**：如 1、2、3
-2. **章节标题**：标题名称
-3. **章节内容**：完整文本
+Need to provide:
+1. **Chapter number**: e.g., 1, 2, 3
+2. **Chapter title**: Title name
+3. **Chapter content**: Complete text
 
-### 分镜数量参考
+### Storyboard Quantity Reference
 
-- 短章节（500-1000字）：10-15个分镜
-- 中等章节（1000-2000字）：15-25个分镜
-- 长章节（2000字以上）：25-40个分镜
+- Short chapter (500-1000 chars): 10-15 storyboards
+- Medium chapter (1000-2000 chars): 15-25 storyboards
+- Long chapter (2000+ chars): 25-40 storyboards
 
-### 特殊要求（可选）
+### Special Requirements (Optional)
 
-- 需要强调的情感场景
-- 慢动作或特殊效果镜头
-- 镜头语言偏好
-- 转场方式偏好
-
----
-
-## ⚠️ 注意事项
-
-- 相邻分镜视觉连贯
-- 角色外貌、服装、光线保持一致性
-- 遵循180度轴线原则
-- 提示词足够详细，引用角色和场景设定
-- 单镜头不超过15秒
-- 考虑AI视频生成技术限制（3-10秒）
+- Emotional scenes that need emphasis
+- Slow motion or special effect shots
+- Camera language preferences
+- Transition method preferences
 
 ---
 
-**准备好了吗？提供章节信息，开始创建分镜脚本！**
+## ⚠️ Notes
+
+- Adjacent storyboards visually coherent
+- Character appearance, clothing, lighting maintain consistency
+- Follow 180-degree axis rule
+- Prompts sufficiently detailed, reference character and scene settings
+- Single shot no longer than 15 seconds
+- Consider AI video generation technology limitations (3-10 seconds)
+
+---
+
+**Ready? Provide chapter information and start creating storyboard script!**

@@ -1,219 +1,219 @@
 # init-comic
 
-## 📋 任务清单
+## 📋 Task Checklist
 
-执行此命令时，请按照以下顺序完成任务，每完成一项就勾选：
+When executing this command, complete tasks in the following order and check off each completed item:
 
-### 阶段1：信息收集与分析
-- [ ] 接收预处理信息：从用户提供的信息中解析故事总结、角色和场景（推荐先使用 `/summarize-novel` 命令生成）
-- [ ] 验证信息完整性：确认角色（3-8个）和场景（3-10个）信息是否完整且可用
-- [ ] 确定动漫风格：询问并记录用户选择的风格（日系/美式/中国风/韩系等）
+### Stage 1: Information Collection and Analysis
+- [ ] Receive preprocessed information: Parse story summary, characters and scenes from user-provided information (recommended to use `/summarize-novel` command first)
+- [ ] Verify information completeness: Confirm if character (3-8) and scene (3-10) information is complete and usable
+- [ ] Determine anime style: Ask and record user's style choice (Japanese/American/Chinese/Korean, etc.)
 
-### 阶段2：项目结构搭建
-- [ ] 创建项目基础结构：创建所有必需的目录（characters/scenes/chapters/outputs等）
-- [ ] 创建style.md：详细记录风格定义、色彩方案、线条风格、光影处理、AI生成关键词
+### Stage 2: Project Structure Setup
+- [ ] Create project base structure: Create all required directories (characters/scenes/chapters/outputs, etc.)
+- [ ] Create style.md: Detailed record of style definition, color scheme, line style, lighting treatment, AI generation keywords
 
-### 阶段3：角色设定与提示词
-- [ ] 创建角色md文件：为每个主要角色创建独立文档（包含基本信息、外貌、服装、性格）
-- [ ] 生成角色正面照提示词：为每个角色创建全身站立图的AI提示词（输出到<姓名>-正面照.png）
-- [ ] 生成角色三视图提示词：为每个角色创建正面/侧面/背面参考图的AI提示词（输出到<姓名>-三视图.png）
-- [ ] 生成角色表情参考图提示词：为每个角色创建6-8个表情合集的AI提示词（输出到<姓名>-表情参考图.png）
-- [ ] 生成角色动作参考图提示词：为每个角色创建3-5个动作姿势合集的AI提示词（输出到<姓名>-动作参考图.png）
+### Stage 3: Character Setup and Prompts
+- [ ] Create character md files: Create independent document for each main character (including basic info, appearance, clothing, personality)
+- [ ] Generate character 正面照 prompts: Create AI prompts for full-body standing image for each character (output to <姓名>-正面照.png)
+- [ ] Generate character 三视图 prompts: Create AI prompts for front/side/back reference image for each character (output to <姓名>-三视图.png)
+- [ ] Generate character 表情参考图 prompts: Create AI prompts for 6-8 expression collection for each character (output to <姓名>-表情参考图.png)
+- [ ] Generate character 动作参考图 prompts: Create AI prompts for 3-5 action pose collection for each character (output to <姓名>-动作参考图.png)
 
-### 阶段4：场景设定与提示词
-- [ ] 创建场景md文件：为每个主要场景创建文档（描述环境、氛围、关键元素）
-- [ ] 生成场景提示词：为每个场景创建不同角度（远景/中景/近景）的AI提示词（输出到<场景名>-<角度>.png）
+### Stage 4: Scene Setup and Prompts
+- [ ] Create scene md files: Create document for each main scene (describe environment, atmosphere, key elements)
+- [ ] Generate scene prompts: Create AI prompts for different angles (远景/中景/近景) for each scene (output to <场景名>-<角度>.png)
 
-### 阶段5：收尾工作
-- [ ] 创建README.md：编写项目说明文档，包含项目结构和使用指南
-- [ ] 验证项目结构：确保所有文件和目录都已正确创建
-- [ ] 展示项目概览：给用户展示完整的项目结构和下一步操作建议（生成角色和场景图片）
-
----
-
-## 📌 关键提示词优化要点
-
-### 对于著名历史人物的提示词强化
-当项目涉及真实历史人物时，提示词需要特别关注这些人物的**历史身份特征**和**文化象征意义**。建议：
-
-1. **明确历史身份**：在提示词中清晰指出角色的历史身份和成就
-   - 示例：不只说"一位皇帝"，而是"明朝开国皇帝朱元璋，从贫农到帝王的蜕变"
-   - 有助于AI生成更符合历史人物气质的视觉形象
-
-2. **强调独特的外貌特征**：著名历史人物往往有明显的生理特征或标志性特征
-   - 示例：朱元璋的"驴脸"、长脑袋、宽下巴是其标志性特征，需要明确描述
-   - 郑成功的"儒将气质"和"一条腿较重"的特殊体征，需要精确传达
-   - 海瑞的"补丁满身官袍"是其廉洁形象的象征
-
-3. **突出权力属性和心理状态**：不同权力等级的人物有不同的视觉表现
-   - 帝王（朱元璋、朱棣）：冷酷、权势、压迫感
-   - 清官（海瑞）：苦行、刚直、原则性
-   - 权臣/权阉（魏忠贤）：谄媚与残忍的诡异结合
-   - 将领（郑成功、吴三桂）：战斗力与内心矛盾
-
-4. **补充网络搜索信息**（如有需要）：
-   - 如果项目中包含真实历史人物，建议在生成提示词前进行快速搜索
-   - 补充该人物的：历史地位、时代背景、代表性事件、评价、文化象征意义
-   - 将这些信息融入提示词，使生成的形象更加准确和有深度
-
-5. **提示词示例模板**（针对历史人物）：
-   ```
-   一个[朝代][身份]，[年龄]岁，[历史身份描述]。
-   他的独特特征：[标志性外貌]，[权力气质]，[心理状态]。
-   服装体现：[时代服装]，[权力等级服装]，[象征意义]。
-   历史背景：[主要成就]，[代表事件]，[文化象征]。
-   气场表现：[权力表现]，[内心世界]，[历史使命]。
-   背景设定：[时代背景]，[环境氛围]。
-   艺术风格：[指定风格]，[质量要求]。
-   ```
+### Stage 5: Finishing Work
+- [ ] Create README.md: Write project documentation, including project structure and usage guide
+- [ ] Verify project structure: Ensure all files and directories are correctly created
+- [ ] Display project overview: Show user complete project structure and next step suggestions (generate character and scene images)
 
 ---
 
-## 执行说明
+## 📌 Key Prompt Optimization Points
 
-我需要你帮我初始化一个漫画生成项目。
+### Prompt Enhancement for Famous Historical Figures
+When project involves real historical figures, prompts need to pay special attention to these characters' **historical identity characteristics** and **cultural symbolic significance**. Recommendations:
 
-### 第一步：收集基础信息
+1. **Clarify Historical Identity**: Clearly indicate character's historical identity and achievements in prompt
+   - Example: Not just "an emperor", but "明朝开国皇帝朱元璋, transformation from poor peasant to emperor"
+   - Helps AI generate visual images that better match historical figure's temperament
 
-**推荐工作流**：
-1. 先使用 `/summarize-novel` 命令分析小说，生成标准化的信息输出
-2. 复制 `/summarize-novel` 的输出结果
-3. 使用本命令（`/init-comic`）时，粘贴上述信息
+2. **Emphasize Unique Appearance Features**: Famous historical figures often have obvious physiological or iconic features
+   - Example: 朱元璋's "驴脸", long head, wide chin are iconic features that need clear description
+   - 郑成功's "儒将气质" and "一条腿较重" special physical traits need precise conveyance
+   - 海瑞's "补丁满身官袍" symbolizes his incorruptible image
 
-**如果用户已提供 `/summarize-novel` 的输出**：
-- 直接解析用户提供的格式化信息（包含故事总结、角色、场景）
-- 跳过分析提取步骤
+3. **Highlight Power Attributes and Psychological States**: Different power levels of characters have different visual expressions
+   - Emperors (朱元璋, 朱棣): Cold, powerful, oppressive presence
+   - Incorruptible officials (海瑞): Ascetic, upright, principled
+   - Power ministers/eunuchs (魏忠贤): Eerie combination of flattery and cruelty
+   - Generals (郑成功, 吴三桂): Combat prowess and internal conflicts
 
-**如果用户未使用 `/summarize-novel`**：
-- 询问用户提供以下信息：
-  1. **故事总结**：整个故事的概要（300-500字），包括主题、主线、结局方向
-  2. **主要角色**（3-8个）：姓名、年龄、外貌特征、性格、服装等详细信息
-  3. **主要场景**（3-10个）：场景名称、环境描述、氛围等
-- 建议用户使用 `/summarize-novel` 命令来自动生成这些信息
+4. **Supplement with Web Search Information** (if needed):
+   - If project includes real historical figures, recommend quick search before generating prompts
+   - Supplement the figure's: historical status, era background, representative events, evaluations, cultural symbolic significance
+   - Integrate this information into prompts to make generated images more accurate and profound
 
-### 第二步：验证信息完整性
+5. **Prompt Template Example** (for historical figures):
+   ```
+   A [dynasty][identity], [age] years old, [historical identity description].
+   His unique characteristics: [iconic appearance], [power temperament], [psychological state].
+   Clothing embodiment: [period clothing], [power level clothing], [symbolic meaning].
+   Historical background: [main achievements], [representative events], [cultural symbolism].
+   Aura expression: [power manifestation], [inner world], [historical mission].
+   Background setting: [era background], [environmental atmosphere].
+   Art style: [specified style], [quality requirements].
+   ```
 
-检查提供的信息是否满足要求：
-- 故事总结是否清晰完整
-- 每个角色是否有足够的外貌、性格、服装描述
-- 每个场景是否有环境和氛围描述
-- 如有缺失，询问用户补充
+---
 
-### 第三步：确定风格
-询问用户希望使用什么动漫风格，提供选项：
-- 日系动漫风格（宫崎骏、新海诚、京都动画等）
-- 美式漫画风格（Marvel、DC等）
-- 中国风动漫
-- 韩系webtoon风格
-- 或让用户自定义
+## Execution Instructions
 
-详细询问风格的色彩、线条、光影等特点。
+I need you to help me initialize a comic generation project.
 
-**⚠️ 如果项目涉及历史人物**：
-- 确认是否要突出历史准确性（服装、建筑、文物等）
-- 询问对角色容貌的态度：完全按照历史记载 vs 理想化改造
-- 确认是否需要在提示词中强化"历史人物"的身份标记
-- 对于有特殊外貌特征的人物（如朱元璋的"驴脸"），确认是否保留或改良
-- 考虑时代背景对视觉表现的影响
+### Step 1: Collect Basic Information
 
-### 第四步：创建项目结构
-在当前工作目录下创建完整的项目结构：
-- `style.md` - 详细记录风格定义，包括色彩方案、线条风格、光影处理、角色和场景的绘制要求，以及用于AI图像生成的通用关键词
-- `characters/` 目录 - 为每个主要角色创建独立的md文件（如 `李小明.md`、`王雪儿.md`），包含角色的基本信息、外貌特征、服装设定、性格特点
-- `scenes/` 目录 - 为每个主要场景创建md文件（如 `咖啡厅.md`、`校园操场.md`），描述场景的环境、氛围、关键元素
-- `chapters/` 目录 - 预留章节目录（后续通过单独命令制作分镜脚本）
-- `outputs/` 目录 - 预先创建好输出目录结构，包括：
-  - `outputs/characters/李小明/`、`outputs/characters/王雪儿/` 等 - 每个角色的输出目录
-  - `outputs/scenes/咖啡厅/`、`outputs/scenes/校园操场/` 等 - 每个场景的输出目录
-  - `outputs/chapters/` - 章节输出目录
-- `README.md` - 项目说明文档，包含项目结构、工作流程和使用指南
+**Recommended Workflow**:
+1. First use `/summarize-novel` command to analyze novel and generate standardized information output
+2. Copy `/summarize-novel` output results
+3. When using this command (`/init-comic`), paste the above information
 
-**重点**：在每个角色的md文件中，需要为以下内容生成详细的AI图像生成提示词：
+**If user has already provided `/summarize-novel` output**:
+- Directly parse user-provided formatted information (containing story summary, characters, scenes)
+- Skip analysis and extraction steps
 
-1. **正面照** - 全身站立图，中性表情，白色背景，输出到 `outputs/characters/李小明/front_view.png`（示例）
+**If user has not used `/summarize-novel`**:
+- Ask user to provide the following information:
+  1. **Story Summary**: Story overview (300-500 chars), including theme, main plot, ending direction
+  2. **Main Characters** (3-8): Name, age, appearance features, personality, clothing and other detailed information
+  3. **Main Scenes** (3-10): Scene name, environment description, atmosphere, etc.
+- Recommend user to use `/summarize-novel` command to automatically generate this information
 
-2. **三视图** - 正面、侧面、背面的角色设计参考图，保持一致性，输出到 `outputs/characters/李小明/three_views.png`（示例）
+### Step 2: Verify Information Completeness
 
-3. **表情参考图** - 将多个表情（开心、悲伤、愤怒、惊讶、害怕、尴尬等6-8个）合并到一张图中生成，类似表情包设计，每个表情占一个格子，输出到 `outputs/characters/李小明/expressions.png`（示例）。这样可以减少生成次数和成本。
+Check if provided information meets requirements:
+- Is story summary clear and complete
+- Does each character have sufficient appearance, personality, clothing descriptions
+- Does each scene have environment and atmosphere descriptions
+- If missing, ask user to supplement
 
-4. **动作参考图** - 将3-5个关键动作（如战斗姿态、跑步、走路、坐下等）合并到一张图中生成，每个动作占一个格子，输出到 `outputs/characters/李小明/actions.png`（示例）。同样可以节省生成成本。
+### Step 3: Determine Style
+Ask user what anime style they want to use, provide options:
+- Japanese anime style (Miyazaki, Shinkai, Kyoto Animation, etc.)
+- American comic style (Marvel, DC, etc.)
+- Chinese style anime
+- Korean webtoon style
+- Or let user customize
 
-所有提示词都必须使用**自然语言描述格式**：
-- 遵循 style.md 中定义的风格要求
-- 用完整的句子描述要生成的内容，像讲故事一样自然流畅
-- 详细但精简地描述角色的外貌特征（发型、发色、眼睛、脸型、身材、服装、配饰等）
-- 对于表情参考图，要说明"这是一张角色表情参考图，包含多个表情"
-- 对于动作参考图，要说明"这是一张角色动作参考图，包含多个动作姿势"
+Ask in detail about style's colors, lines, lighting characteristics.
 
-#### **🔍 针对历史人物的提示词优化策略**：
+**⚠️ If project involves historical figures**:
+- Confirm whether to emphasize historical accuracy (clothing, architecture, artifacts, etc.)
+- Ask about attitude towards character appearance: Fully according to historical records vs idealized transformation
+- Confirm if need to reinforce "historical figure" identity markers in prompts
+- For figures with special appearance features (like 朱元璋's "驴脸"), confirm whether to preserve or refine
+- Consider era background's impact on visual expression
 
-| 角色类型 | 提示词强调点 | 具体优化方向 |
+### Step 4: Create Project Structure
+Create complete project structure in current working directory:
+- `style.md` - Detailed record of style definition, including color scheme, line style, lighting treatment, character and scene drawing requirements, and general keywords for AI image generation
+- `characters/` directory - Create independent md file for each main character (e.g., `李小明.md`, `王雪儿.md`), containing character's basic info, appearance features, clothing design, personality traits
+- `scenes/` directory - Create md file for each main scene (e.g., `咖啡厅.md`, `校园操场.md`), describing scene's environment, atmosphere, key elements
+- `chapters/` directory - Reserved chapter directory (to create storyboard scripts through separate command later)
+- `outputs/` directory - Pre-create output directory structure, including:
+  - `outputs/characters/李小明/`, `outputs/characters/王雪儿/`, etc. - Output directory for each character
+  - `outputs/scenes/咖啡厅/`, `outputs/scenes/校园操场/`, etc. - Output directory for each scene
+  - `outputs/chapters/` - Chapter output directory
+- `README.md` - Project documentation, including project structure, workflow and usage guide
+
+**Key Point**: In each character's md file, need to generate detailed AI image generation prompts for the following content:
+
+1. **正面照** - Full-body standing image, neutral expression, white background, output to `outputs/characters/李小明/front_view.png` (example)
+
+2. **三视图** - Character design reference image of front/side/back views, maintain consistency, output to `outputs/characters/李小明/three_views.png` (example)
+
+3. **表情参考图** - Merge multiple expressions (happy, sad, angry, surprised, scared, embarrassed, etc., 6-8) into one image for generation, like emoticon design, each expression occupies one grid, output to `outputs/characters/李小明/expressions.png` (example). This can reduce generation frequency and cost.
+
+4. **动作参考图** - Merge 3-5 key actions (like combat stance, running, walking, sitting, etc.) into one image for generation, each action occupies one grid, output to `outputs/characters/李小明/actions.png` (example). Can also save generation cost.
+
+All prompts must use **natural language description format**:
+- Follow style requirements defined in style.md
+- Use complete sentences to describe what to generate, naturally fluent like storytelling
+- Describe character's appearance features in detail but concisely (hairstyle, hair color, eyes, face shape, build, clothing, accessories, etc.)
+- For 表情参考图, should state "This is a character expression reference image containing multiple expressions"
+- For 动作参考图, should state "This is a character action reference image containing multiple action poses"
+
+#### **🔍 Prompt Optimization Strategy for Historical Figures**:
+
+| Character Type | Prompt Emphasis | Specific Optimization Direction |
 |---------|-----------|----------|
-| **帝王** | 权力特征、权势感、冷酷气质 | 强调皇帝身份、统治者的压迫感、历史地位；突出标志性特征（如朱元璋的"驴脸"） |
-| **清官** | 廉洁形象、原则性、苦行感 | 强调廉洁品质、打补丁的服装、坚定不移的眼神、刚直不屈的气质 |
-| **权臣/权阉** | 权力欲、谄媚与残忍的矛盾 | 突出权力的虚幻性、从卑微到权力的蜕变、诡异的双重性格 |
-| **战将** | 战斗力、内心矛盾、历史使命 | 强调军事才能、内心的挣扎、忠诚或背叛的困境、代表性事件 |
-| **女性角色** | 时代背景、身份地位、性格复杂性 | 考虑时代对女性的限制、她们的选择和权力、内心世界的深度 |
+| **Emperors** | Power characteristics, sense of authority, cold temperament | Emphasize emperor identity, ruler's oppressive presence, historical status; highlight iconic features (like 朱元璋's "驴脸") |
+| **Incorruptible Officials** | Integrity image, principled nature, ascetic sense | Emphasize incorruptible quality, patched clothing, unwavering gaze, upright unyielding temperament |
+| **Power Ministers/Eunuchs** | Power desire, contradiction between flattery and cruelty | Highlight illusory nature of power, transformation from humble to powerful, eerie dual personality |
+| **Generals** | Combat prowess, internal conflicts, historical mission | Emphasize military talent, inner struggles, dilemma of loyalty or betrayal, representative events |
+| **Female Characters** | Era background, identity status, personality complexity | Consider era's constraints on women, their choices and power, depth of inner world |
 
-#### **提示词编写三层次法**（特别适用于历史人物）：
+#### **Three-Tier Prompt Writing Method** (especially applicable to historical figures):
 
-**第一层：历史身份定位**
-- 明确指出朝代、职位、历史地位
-- 示例：`明朝开国皇帝朱元璋`、`南明忠臣郑成功`、`清廉刚直的海瑞`
-- **作用**：让AI模型理解这不是虚构角色，而是有深厚历史背景的人物
+**Tier 1: Historical Identity Positioning**
+- Clearly indicate dynasty, position, historical status
+- Example: `明朝开国皇帝朱元璋`, `南明忠臣郑成功`, `清廉刚直的海瑞`
+- **Purpose**: Let AI model understand this is not a fictional character, but a figure with deep historical background
 
-**第二层：独特特征描述**
-- 突出这个人物区别于他人的标志性特征
-- 包括：生理特征、权力标志、心理特质、代表性服装
-- 示例：`长脑袋和宽下巴的独特容貌`、`满身补丁的官袍象征廉洁`、`精光四射的权欲眼神`
-- **作用**：确保生成的形象具有辨识度和历史准确性
+**Tier 2: Unique Feature Description**
+- Highlight iconic features that distinguish this figure from others
+- Include: Physical traits, power symbols, psychological qualities, representative clothing
+- Example: `长脑袋和宽下巴的独特容貌`, `满身补丁的官袍象征廉洁`, `精光四射的权欲眼神`
+- **Purpose**: Ensure generated image has recognizability and historical accuracy
 
-**第三层：权力与心理融合**
-- 结合历史时期和人物的心理状态
-- 描述权力如何改变或塑造了这个人物
-- 示例：`从贫农到帝王，眼神中混合了智慧和残忍`、`孤臣坚守的悲壮感`、`权力顶峰时的疯狂与崩溃后的恐惧对比`
-- **作用**：赋予角色更丰富的表现力和历史意义
+**Tier 3: Power and Psychology Fusion**
+- Combine historical period and figure's psychological state
+- Describe how power changed or shaped this figure
+- Example: `从贫农到帝王，眼神中混合了智慧和残忍`, `孤臣坚守的悲壮感`, `权力顶峰时的疯狂与崩溃后的恐惧对比`
+- **Purpose**: Endow character with richer expressiveness and historical significance
 
-- **提示词格式要求**：
-  - 控制在500字以内（中文）或800字符以内（英文）
-  - 使用自然语言的完整句子，不要堆砌关键词
-  - 可以使用中文或英文描述，但保持语言统一
-  - 不要使用特殊符号、换行符，所有内容在一段话内
-  - 按照"主体-历史身份-外貌-服装-权力特征-心理状态-背景-风格-质量"的顺序组织描述
-  - **中文示例（虚构角色）**：`画一个20岁的年轻男性角色正面全身像。他有着短黑色头发，棕色眼睛，瓜子脸，身材修长。穿着白色衬衫和深色长裤。他自然站立，表情平静中性。纯白色背景。采用日系动漫风格，线条清晰，色彩明亮，高质量精细画面。`
-  - **中文示例（历史人物）**：`画明朝开国皇帝朱元璋的正面全身像，40多岁，面容特征独特强势。他有长脑袋、宽大下巴，典型的"驴脸"，皮肤黝黑粗糙，眼神深邃冷酷透着智慧和残忍。穿着明黄龙袍，绣着金龙纹样，平天冠装束，散发不可侵犯的帝王气场。纯白背景。日系动漫风格，线条清晰精细，光影对比强烈，高质量精细画面。`
+- **Prompt Format Requirements**:
+  - Control within 500 chars (Chinese) or 800 words (English)
+  - Use complete sentences in natural language, don't pile up keywords
+  - Can use Chinese or English description, but maintain language consistency
+  - Don't use special symbols, line breaks, all content in one paragraph
+  - Organize description in order: "subject-historical identity-appearance-clothing-power characteristics-psychological state-background-style-quality"
+  - **Chinese Example (Fictional Character)**: `画一个20岁的年轻男性角色正面全身像。他有着短黑色头发，棕色眼睛，瓜子脸，身材修长。穿着白色衬衫和深色长裤。他自然站立，表情平静中性。纯白色背景。采用日系动漫风格，线条清晰，色彩明亮，高质量精细画面。`
+  - **Chinese Example (Historical Figure)**: `画明朝开国皇帝朱元璋的正面全身像，40多岁，面容特征独特强势。他有长脑袋、宽大下巴，典型的"驴脸"，皮肤黝黑粗糙，眼神深邃冷酷透着智慧和残忍。穿着明黄龙袍，绣着金龙纹样，平天冠装束，散发不可侵犯的帝王气场。纯白背景。日系动漫风格，线条清晰精细，光影对比强烈，高质量精细画面。`
 
-场景的md文件中也要包含生成提示词，支持不同角度（远景、中景、近景）。
+Scene md files should also contain generation prompts, supporting different angles (远景, 中景, 近景).
 
-#### **📋 历史人物提示词检查清单**（生成提示词前检查）：
+#### **📋 Historical Figure Prompt Checklist** (Check before generating prompts):
 
-在为历史人物生成提示词前，确保以下信息完整：
+Before generating prompts for historical figures, ensure the following information is complete:
 
-- [ ] **历史身份**：这个人物的朝代、官职、历史地位是否在提示词中清晰表达？
-- [ ] **生理特征**：是否突出了这个人物的标志性容貌特征？（如"驴脸"、"无须"、"一腿较重"等）
-- [ ] **权力等级**：这个人物的权力等级是否通过气质、服装、眼神等充分表现？
-- [ ] **代表事件**：是否暗示或明确提及这个人物的代表性事件或历史地位？
-- [ ] **时代背景**：是否考虑了该人物所处时代的视觉特征？
-- [ ] **心理复杂性**：对于有复杂心理的人物（如吴三桂的矛盾、魏忠贤的蜕变），是否充分表现？
-- [ ] **服装准确性**：服装描述是否符合该人物的时代和身份？
-- [ ] **文化象征**：是否体现了该人物的文化象征意义？（如海瑞的廉洁、郑成功的忠义）
-- [ ] **对比性**：对于有多个时期的人物，是否体现了不同时期的区别？
-- [ ] **长度控制**：提示词是否控制在要求的字数内？
+- [ ] **Historical Identity**: Is the figure's dynasty, official position, historical status clearly expressed in the prompt?
+- [ ] **Physical Features**: Are the figure's iconic facial features highlighted? (e.g., "驴脸", "无须", "一腿较重", etc.)
+- [ ] **Power Level**: Is the figure's power level fully expressed through temperament, clothing, gaze, etc.?
+- [ ] **Representative Events**: Are the figure's representative events or historical status hinted at or explicitly mentioned?
+- [ ] **Era Background**: Are visual characteristics of the era the figure lived in considered?
+- [ ] **Psychological Complexity**: For figures with complex psychology (like 吴三桂's contradictions, 魏忠贤's transformation), is it fully expressed?
+- [ ] **Clothing Accuracy**: Does clothing description match the figure's era and identity?
+- [ ] **Cultural Symbolism**: Is the figure's cultural symbolic significance reflected? (e.g., 海瑞's integrity, 郑成功's loyalty)
+- [ ] **Contrast**: For figures with multiple periods, are differences between periods reflected?
+- [ ] **Length Control**: Is prompt controlled within required character count?
 
-**检查不通过时的补充指导**：
-- 如果缺少历史背景信息，建议进行网络搜索补充
-- 如果标志性特征不明显，可以翻阅历史评价和文献
-- 如果权力气质不足，考虑增加权力相关的视觉词汇
-- 如果文化象征意义不明确，可以查阅历史人物的传记和评传
+**Supplementary Guidance When Check Fails**:
+- If historical background information is missing, recommend web search supplementation
+- If iconic features are not obvious, can review historical evaluations and literature
+- If power temperament is insufficient, consider adding power-related visual vocabulary
+- If cultural symbolic significance is unclear, can consult biographies and critical biographies of historical figures
 
-### 完成初始化后
+### After Completing Initialization
 
-完成所有文件创建后，给我展示：
-1. **项目结构概览** - 清晰的目录树展示
-2. **已创建的角色列表** - 包含每个角色的基本信息和AI提示词预览
-3. **已创建的场景列表** - 包含每个场景的描述和AI提示词预览
-4. **下一步操作建议**：
-   - 使用 `/generate-comic-images` 命令批量生成角色参考图（正面照、三视图、表情图、动作图）
-   - 使用 `/generate-comic-images` 命令批量生成场景参考图（远景、中景、近景）
-   - 生成完角色和场景图片后，可以使用单独的命令为具体章节创建分镜脚本
-   - **后续章节如需新增角色/场景**，使用 `/add-character-scene` 命令补充新的角色或场景设定
+After completing all file creation, show me:
+1. **Project Structure Overview** - Clear directory tree display
+2. **Created Character List** - Contains each character's basic information and AI prompt preview
+3. **Created Scene List** - Contains each scene's description and AI prompt preview
+4. **Next Step Suggestions**:
+   - Use `/generate-comic-images` command to batch generate character reference images (正面照, 三视图, 表情图, 动作图)
+   - Use `/generate-comic-images` command to batch generate scene reference images (远景, 中景, 近景)
+   - After generating character and scene images, can use separate command to create storyboard scripts for specific chapters
+   - **For subsequent chapters requiring new characters/scenes**, use `/add-character-scene` command to supplement new character or scene settings

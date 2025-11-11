@@ -1,88 +1,88 @@
 # add-character-scene
 
-## 📋 任务清单
+## 📋 Task Checklist
 
-执行此命令时，请按照以下顺序完成任务，每完成一项就勾选：
+When executing this command, complete tasks in the following order and check off each completed item:
 
-### 阶段1：信息收集
-- [ ] 确认项目状态：检查项目结构是否完整（style.md、characters/、scenes/ 等目录是否存在）
-- [ ] 读取风格定义：从 style.md 中读取已定义的风格，确保新增内容保持一致性
-- [ ] 询问新增类型：让用户选择要添加角色、场景，还是两者都添加
-- [ ] 收集详细信息：获取新角色/场景的详细描述和相关章节信息
+### Stage 1: Information Collection
+- [ ] Confirm project status: Check if project structure is complete (style.md, characters/, scenes/ directories exist)
+- [ ] Read style definition: Read defined style from style.md to ensure new content maintains consistency
+- [ ] Ask for addition type: Let user choose to add character, scene, or both
+- [ ] Collect detailed information: Obtain detailed descriptions and related chapter information for new character/scene
 
-### 阶段2：角色添加（如果需要）
-- [ ] 创建角色md文件：在 `characters/` 目录下创建新角色的md文档
-- [ ] 填写角色基本信息：包含姓名、年龄、身份、性格等
-- [ ] 描述角色外貌：详细描述发型、发色、眼睛、脸型、身材、服装等特征
-- [ ] 生成角色正面照提示词：创建全身站立图的AI提示词
-- [ ] 生成角色三视图提示词：创建正面/侧面/背面参考图的AI提示词
-- [ ] 生成角色表情参考图提示词：创建6-8个表情合集的AI提示词
-- [ ] 生成角色动作参考图提示词：创建3-5个动作姿势合集的AI提示词
-- [ ] 创建角色输出目录：在 `outputs/characters/` 下创建新角色的输出目录
+### Stage 2: Character Addition (If Needed)
+- [ ] Create character md file: Create new character's md document in `characters/` directory
+- [ ] Fill in character basic info: Include name, age, identity, personality, etc.
+- [ ] Describe character appearance: Detailed description of hairstyle, hair color, eyes, face shape, build, clothing features
+- [ ] Generate character 正面照 prompt: Create AI prompt for full-body standing image
+- [ ] Generate character 三视图 prompt: Create AI prompt for front/side/back reference image
+- [ ] Generate character 表情参考图 prompt: Create AI prompt for 6-8 expression collection
+- [ ] Generate character 动作参考图 prompt: Create AI prompt for 3-5 action pose collection
+- [ ] Create character output directory: Create new character's output directory under `outputs/characters/`
 
-### 阶段3：场景添加（如果需要）
-- [ ] 创建场景md文件：在 `scenes/` 目录下创建新场景的md文档
-- [ ] 填写场景基本信息：描述场景名称、类型、氛围、功能
-- [ ] 描述场景环境：详细描述地点、建筑、装饰、光线、天气等元素
-- [ ] 生成场景远景提示词：创建全景视角的AI提示词
-- [ ] 生成场景中景提示词：创建中景视角的AI提示词
-- [ ] 生成场景近景提示词：创建近景细节的AI提示词
-- [ ] 创建场景输出目录：在 `outputs/scenes/` 下创建新场景的输出目录
+### Stage 3: Scene Addition (If Needed)
+- [ ] Create scene md file: Create new scene's md document in `scenes/` directory
+- [ ] Fill in scene basic info: Describe scene name, type, atmosphere, function
+- [ ] Describe scene environment: Detailed description of location, architecture, decoration, lighting, weather elements
+- [ ] Generate scene 远景 prompt: Create AI prompt for panoramic perspective
+- [ ] Generate scene 中景 prompt: Create AI prompt for medium shot perspective
+- [ ] Generate scene 近景 prompt: Create AI prompt for close-up details
+- [ ] Create scene output directory: Create new scene's output directory under `outputs/scenes/`
 
-### 阶段4：记录更新
-- [ ] 更新changelog：在项目根目录创建或更新 `updates_log.md`，记录本次新增的内容和时间
-- [ ] 可选：更新story_analysis：如果新增内容与特定章节相关，可以更新故事分析文档
+### Stage 4: Record Updates
+- [ ] Update changelog: Create or update `updates_log.md` in project root directory, record content and time of this addition
+- [ ] Optional: Update story_analysis: If new content relates to specific chapter, can update story analysis document
 
-### 阶段5：展示结果
-- [ ] 展示新增内容：列出所有新创建的角色和场景信息
-- [ ] 展示AI提示词预览：显示生成的提示词示例
-- [ ] 提供下一步建议：提示使用 `/generate-comic-images` 命令生成新增角色/场景的参考图
+### Stage 5: Display Results
+- [ ] Display new content: List all newly created character and scene information
+- [ ] Display AI prompt preview: Show generated prompt examples
+- [ ] Provide next step suggestions: Prompt to use `/generate-comic-images` command to generate reference images for new character/scene
 
 ---
 
-## 执行说明
+## Execution Instructions
 
-这个命令用于在已初始化的漫画项目中**新增角色或场景**。适用于故事推进过程中出现的新人物或新地点。
+This command is used to **add new characters or scenes** to an initialized comic project. Suitable for new characters or locations appearing during story progression.
 
-### 前置条件检查
+### Prerequisite Checks
 
-在开始之前，需要确认：
-1. 项目已通过 `/init-comic` 命令初始化
-2. 存在 `style.md` 文件（用于保持风格一致性）
-3. 存在 `characters/` 和 `scenes/` 目录
+Before starting, need to confirm:
+1. Project has been initialized through `/init-comic` command
+2. `style.md` file exists (to maintain style consistency)
+3. `characters/` and `scenes/` directories exist
 
-如果项目未初始化，应提示用户先运行 `/init-comic` 命令。
+If project is not initialized, should prompt user to run `/init-comic` command first.
 
-### 第一步：询问新增类型
+### Step 1: Ask for Addition Type
 
-询问用户本次要添加什么内容：
-1. **仅添加角色** - 适用于新登场的人物
-2. **仅添加场景** - 适用于新出现的地点
-3. **同时添加角色和场景** - 适用于一起出现的新元素
+Ask user what content to add this time:
+1. **Add character only** - For new appearing characters
+2. **Add scene only** - For new appearing locations
+3. **Add both character and scene** - For new elements appearing together
 
-### 第二步：收集信息
+### Step 2: Collect Information
 
-#### 如果添加角色，询问：
-- **角色姓名**
-- **基本信息**：年龄、性别、身份、职业
-- **外貌特征**：发型、发色、瞳色、脸型、身材、身高
-- **服装设定**：日常服装、特殊服装、配饰
-- **性格特点**：性格描述、说话风格、行为习惯
-- **角色关系**：与已有角色的关系
-- **出场章节**：首次登场和主要活跃章节
+#### If adding character, ask for:
+- **Character name**
+- **Basic info**: Age, gender, identity, occupation
+- **Appearance features**: Hairstyle, hair color, eye color, face shape, build, height
+- **Clothing design**: Daily clothing, special clothing, accessories
+- **Personality traits**: Personality description, speaking style, behavioral habits
+- **Character relationships**: Relationships with existing characters
+- **Appearance chapters**: First appearance and main active chapters
 
-#### 如果添加场景，询问：
-- **场景名称**
-- **场景类型**：室内/室外、城市/乡村、公共/私密等
-- **环境描述**：建筑风格、装饰特点、空间布局
-- **氛围特点**：光线、色调、天气、时间段
-- **关键元素**：标志性物品、特殊装饰
-- **功能说明**：这个场景在故事中的作用
-- **出场章节**：首次出现和主要使用章节
+#### If adding scene, ask for:
+- **Scene name**
+- **Scene type**: Indoor/outdoor, urban/rural, public/private, etc.
+- **Environment description**: Architectural style, decoration features, spatial layout
+- **Atmosphere characteristics**: Lighting, color tone, weather, time period
+- **Key elements**: Iconic items, special decorations
+- **Function description**: Role of this scene in the story
+- **Appearance chapters**: First appearance and main usage chapters
 
-### 第三步：创建角色文件（如果需要）
+### Step 3: Create Character File (If Needed)
 
-为每个新增角色创建 `characters/<角色名>.md` 文件，结构如下：
+Create `characters/<角色名>.md` file for each new character, with the following structure:
 
 ```markdown
 # 角色名
@@ -129,15 +129,15 @@
 （提示词内容）
 ```
 
-**提示词生成要求**：
-- 严格遵循 `style.md` 中定义的风格
-- 使用自然语言描述，500字以内（中文）或800字符以内（英文）
-- 包含完整的外貌、服装、动作、表情、背景、风格描述
-- 保持与已有角色的风格一致性
+**Prompt Generation Requirements**:
+- Strictly follow the style defined in `style.md`
+- Use natural language description, within 500 chars (Chinese) or 800 chars (English)
+- Include complete appearance, clothing, action, expression, background, style descriptions
+- Maintain style consistency with existing characters
 
-### 第四步：创建场景文件（如果需要）
+### Step 4: Create Scene File (If Needed)
 
-为每个新增场景创建 `scenes/<场景名>.md` 文件，结构如下：
+Create `scenes/<场景名>.md` file for each new scene, with the following structure:
 
 ```markdown
 # 场景名
@@ -177,15 +177,15 @@
 （提示词内容）
 ```
 
-### 第五步：创建输出目录
+### Step 5: Create Output Directories
 
-为新增的角色和场景创建相应的输出目录：
-- 角色：`outputs/characters/<角色名>/`
-- 场景：`outputs/scenes/<场景名>/`
+Create corresponding output directories for new characters and scenes:
+- Characters: `outputs/characters/<角色名>/`
+- Scenes: `outputs/scenes/<场景名>/`
 
-### 第六步：记录更新日志
+### Step 6: Record Update Log
 
-在项目根目录创建或更新 `updates_log.md`，格式如下：
+Create or update `updates_log.md` in project root directory, with the following format:
 
 ```markdown
 # 项目更新日志
@@ -203,36 +203,36 @@
 ---
 ```
 
-### 完成添加后
+### After Completing Addition
 
-展示给用户：
-1. **新增内容清单** - 列出所有新创建的角色和场景
-2. **文件创建确认** - 显示创建的文件路径
-3. **AI提示词预览** - 展示部分生成的提示词示例
-4. **输出目录确认** - 列出创建的输出目录
-5. **下一步操作建议**：
-   - 使用 `/generate-comic-images` 命令为新增角色生成参考图（正面照、三视图、表情图、动作图）
-   - 使用 `/generate-comic-images` 命令为新增场景生成参考图（远景、中景、近景）
-   - 如果需要在特定章节中使用这些新元素，可以创建或更新相应的章节分镜脚本
+Display to user:
+1. **New Content List** - List all newly created characters and scenes
+2. **File Creation Confirmation** - Show created file paths
+3. **AI Prompt Preview** - Display some generated prompt examples
+4. **Output Directory Confirmation** - List created output directories
+5. **Next Step Suggestions**:
+   - Use `/generate-comic-images` command to generate reference images for new characters (正面照, 三视图, 表情图, 动作图)
+   - Use `/generate-comic-images` command to generate reference images for new scenes (远景, 中景, 近景)
+   - If need to use these new elements in specific chapters, can create or update corresponding chapter storyboard scripts
 
-## 注意事项
+## Notes
 
-1. **保持风格一致性**：所有新增内容必须严格遵循 `style.md` 中定义的风格
-2. **检查重复**：在创建前检查是否已存在同名角色或场景
-3. **关联性说明**：记录新角色/场景与已有元素的关系
-4. **章节追溯**：明确记录首次登场和主要活跃的章节
-5. **提示词质量**：确保提示词详细且符合AI图像生成的最佳实践
+1. **Maintain Style Consistency**: All new content must strictly follow the style defined in `style.md`
+2. **Check for Duplicates**: Check if characters or scenes with same name already exist before creating
+3. **Relationship Documentation**: Record relationships between new characters/scenes and existing elements
+4. **Chapter Tracking**: Clearly record first appearance and main active chapters
+5. **Prompt Quality**: Ensure prompts are detailed and follow AI image generation best practices
 
-## 示例用法
+## Example Usage
 
-**用户**："我需要添加一个新角色，名叫张伟，是个30岁的警察，会在第8章登场。"
+**User**: "我需要添加一个新角色，名叫张伟，是个30岁的警察，会在第8章登场。"
 
-**执行流程**：
-1. 确认项目结构完整
-2. 读取 style.md 了解风格
-3. 收集张伟的详细信息（外貌、服装、性格等）
-4. 创建 `characters/张伟.md`
-5. 生成4个AI提示词（正面照、三视图、表情、动作）
-6. 创建 `outputs/characters/张伟/` 目录
-7. 更新 `updates_log.md`
-8. 展示结果并提供下一步建议
+**Execution Process**:
+1. Confirm project structure is complete
+2. Read style.md to understand style
+3. Collect detailed information about 张伟 (appearance, clothing, personality, etc.)
+4. Create `characters/张伟.md`
+5. Generate 4 AI prompts (正面照, 三视图, 表情, 动作)
+6. Create `outputs/characters/张伟/` directory
+7. Update `updates_log.md`
+8. Display results and provide next step suggestions

@@ -6,8 +6,8 @@
 - [ ] Split shots by scene, plot, emotion
 - [ ] For each storyboard (one at a time):
   - [ ] Write script (shot type, scene, action, dialogue, emotion)
-  - [ ] Generate start/end frame image prompts
-  - [ ] Generate video clip prompts
+  - [ ] Generate start/end frame image prompts (English, natural language)
+  - [ ] Generate video clip prompts (**中文，自然语言描述**)
   - [ ] **Immediately output this storyboard to md file** (incremental write)
 - [ ] Continue until all storyboards are generated and written to `outputs/storyboard/chapter-<章节号>/storyboard.md`
 
@@ -63,15 +63,15 @@ This is a medium shot showing a 20-year-old young man named 李小明 standing i
 
 ### Video Clip Prompts
 
-**Key Points** (English prompts recommended for better model performance):
-- Use natural language to describe the dynamic transition process
-- Clearly specify camera movement and character actions
-- Describe emotional and environmental changes
-- 200-400 words (English)
+**Key Points** (**必须使用中文，自然语言描述**):
+- 使用自然语言描述动态过渡过程
+- 明确指定镜头运动和角色动作
+- 描述情绪和环境变化
+- 200-400 字（中文）
 
-**Example (English, natural language)**:
+**Example (中文，自然语言)**:
 ```
-This is a medium shot with a fixed camera position. The scene begins with 李小明 standing calmly in the cafe. As the moment unfolds, his body begins to lean slightly forward, and his right hand slowly rises from his side, eventually pointing forward. His facial expression undergoes a gradual transformation - starting from a calm, neutral look, his eyes begin to widen in surprise, and his mouth opens slightly in reaction to something he sees. Throughout this 4-second sequence, the background cafe lighting remains stable and consistent, maintaining the warm atmosphere. The pacing of his movements is moderate and natural, neither rushed nor too slow. The animation follows a Japanese anime style with smooth, fluid character movements that feel organic and believable.
+这是一个固定机位的中景镜头。场景开始时，李小明平静地站在咖啡厅里。随着时间推移，他的身体开始微微前倾，右手从身侧缓缓抬起，最终指向前方。他的面部表情逐渐变化——从平静、中性的表情开始，眼睛因看到什么而逐渐睁大，嘴巴也因反应而微微张开。在这4秒的序列中，背景咖啡厅的灯光保持稳定一致，维持着温馨的氛围。他的动作节奏适中自然，既不匆忙也不过于缓慢。动画遵循日本动漫风格，角色动作流畅自然，感觉真实可信。
 ```
 
 ---
@@ -136,10 +136,10 @@ This is a wide shot of the same cafe interior, maintaining the overhead angle an
 
 ---
 
-#### Video Prompt (English, natural language)
+#### Video Prompt (中文，自然语言)
 
 ```
-This is a 5-second sequence captured in a wide shot from a fixed overhead camera position. The scene begins with a gentle fade-in effect. We see 李小明 push open the glass door and step into the cafe. He walks steadily from the right edge of the frame towards the center-right area, making his way towards the seating area on the left side. As he moves through the space, the other customers in the background show subtle, natural movements - small gestures and slight shifts that bring life to the scene. The warm lighting throughout the cafe remains stable and consistent, maintaining the cozy, welcoming atmosphere. The pacing of the entire sequence is relaxed and unhurried, allowing viewers to take in the environment. The animation follows a Japanese anime style with smooth, fluid character movements that feel natural and believable.
+这是一个5秒的序列，采用固定俯视机位的远景镜头。场景以柔和的淡入效果开始。我们看到李小明推开玻璃门，走进咖啡厅。他稳步从画面右侧边缘走向中心右侧区域，朝着左侧的座位区走去。当他穿过空间时，背景中的其他顾客展现出细微、自然的动作——小幅度的手势和轻微的移动，为场景带来生机。整个咖啡厅的温暖灯光保持稳定一致，维持着温馨、欢迎的氛围。整个序列的节奏轻松不匆忙，让观众能够充分感受环境。动画遵循日本动漫风格，角色动作流畅自然，感觉真实可信。
 ```
 
 ---

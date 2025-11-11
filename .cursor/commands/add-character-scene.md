@@ -236,4 +236,3 @@
 6. 创建 `outputs/characters/张伟/` 目录
 7. 更新 `updates_log.md`
 8. 展示结果并提供下一步建议
-

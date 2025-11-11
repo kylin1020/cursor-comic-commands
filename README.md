@@ -4,9 +4,9 @@
 
 ## 🚀 推荐配置
 
-> **为了获得最佳效果，建议同时使用 SeedDream 4.0 MCP**
+> **为了获得最佳效果，建议同时使用 gemini-2.5-flash-image MCP**
 > 
-> - 📦 **项目地址**：https://github.com/kylin1020/seedream-v4-volcengine-mcp
+> - 📦 **项目地址**：[https://github.com/kylin1020/seedream-v4-volcengine-mcp](https://github.com/kylin1020/comic-image-gen-mcp.git)
 > - ✨ **功能**：支持中英文提示词、img2img 参考图、批量并发生成、高质量输出
 > - 🎯 **作用**：为 `/generate-comic-images` 命令提供高质量的 AI 图像生成能力
 > - ⚡ **优势**：与 Cursor MCP 无缝集成，无需额外配置

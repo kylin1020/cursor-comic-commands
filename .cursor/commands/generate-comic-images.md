@@ -204,6 +204,31 @@
 - Include shot type, chapter atmosphere, and global style
 - Total length ≤600 words per prompt
 
+### Critical Considerations for Tool Integration 🎯
+
+**Consistency Constraints (MUST be enforced in prompts)**:
+- **Character Consistency Across Frames**:
+  - Character age must remain stable (no ±5 years jumps between adjacent frames)
+  - Character clothing/appearance state must be logically consistent with previous frame
+  - If character has injuries, disabilities, or special states in current shot, must maintain them (don't suddenly heal or change without explanation)
+  - Character positioning and perspective must evolve naturally (not teleport or appear without continuity)
+
+- **Scene Environment Consistency**:
+  - Scene location must be consistent between 前帧 and 尾帧 (no mysterious scene changes)
+  - Lighting/time of day consistency (day/night, sunny/rainy) must match scene description
+  - Seasonal context must remain consistent if specified
+  - Environmental objects and their positions should be logically consistent
+  
+- **Temporal Logic** (Most Important 🔴):
+  - 前帧 and 尾帧 are consecutive moments of the same shot - describe progression, not reset
+  - If previous shot's 尾帧 exists, current 前帧 must logically follow it
+  - Don't introduce new characters that weren't foreshadowed in scene description
+  - Don't remove characters or objects that existed in 前帧
+  
+- **Prompt Emphasis for Tool**:
+  - Add explicit instruction: *"This frame must logically follow [previous state]. Maintain consistency in character state, location, lighting. Do NOT create unrealistic jumps or contradictions."*
+  - For derivative images (expressions, actions): *"Based on [base character front view], generate variation while maintaining age/identity."*
+
 **Example (Based on 分镜001, English natural language)**:
 
 **Start Frame:**

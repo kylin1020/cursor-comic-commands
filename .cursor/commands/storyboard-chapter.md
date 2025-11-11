@@ -4,10 +4,17 @@
 
 - [ ] Receive and analyze chapter content, determine storyboard quantity and pacing
 - [ ] Split shots by scene, plot, emotion
-- [ ] Write script for each storyboard (shot type, scene, action, dialogue, emotion)
-- [ ] Generate start/end frame image prompts
-- [ ] Generate video clip prompts
-- [ ] Output complete storyboard script to `storyboard/chapter-<章节号>/storyboard.md`
+- [ ] For each storyboard (one at a time):
+  - [ ] Write script (shot type, scene, action, dialogue, emotion)
+  - [ ] Generate start/end frame image prompts
+  - [ ] Generate video clip prompts
+  - [ ] **Immediately output this storyboard to md file** (incremental write)
+- [ ] Continue until all storyboards are generated and written to `outputs/storyboard/chapter-<章节号>/storyboard.md`
+
+> ⚠️ **IMPORTANT**: Since a chapter may require 20-40 storyboards, **please generate and write each storyboard incrementally** instead of generating all at once. This approach:
+> - Avoids issues with overly long responses
+> - Provides real-time progress feedback
+> - Reduces memory pressure
 
 ---
 

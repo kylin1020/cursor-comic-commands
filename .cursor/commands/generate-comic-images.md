@@ -27,19 +27,24 @@
   - **Consider camera angle relative to action direction** - side view, back view, or front view each creates different spatial relationships
   - **Movement must respect physics** - characters cannot instantly change locations, speeds, or directions without logical progression
 - **Read and Extract Key Information (Multi-level Fusion)**:
-  - Read `style.md` to extract **global style keywords** (art style, color tone, lighting, line work, texture, artistic style, etc., about 100 characters)
+  - Read `style.md` to extract **comprehensive style elements** (≥150-200 characters):
+    - Art style fusion description (Japanese Shinkai style specifics + Chinese ancient elements)
+    - Color palette: Identify main colors for current story phase (Phase 1/2/3 from style.md)
+    - Lighting approach: Single light source principle, contrast intensity, atmospheric effects
+    - Line work standards: Stroke width hierarchy (main outline 2-3px, details 0.5-1px, background 0.25-0.5px)
+    - Composition philosophy: High contrast, clear focus, layered depth, dramatic shadows
   - Read current chapter storyboard.md to extract **chapter atmosphere keywords** (emotion, color tone, pacing, environmental tone, period feel, etc., about 60 characters)
   - Read storyboard md to extract **scene descriptions** (this is core content, including scenes, characters, actions, expressions and other visual elements)
   - Read related character/scene md files to get **character/scene details** (appearance features, scene layout, etc.)
 - Check for existing reference images in outputs directory to avoid duplicate generation
 
 ### Step 2: Optimize Prompts and Prepare Generation Parameters
-- **Prompt Construction (Multi-level fusion, total length ≤600 Chinese characters)**:
-  - **Base Structure** (Characters/Scenes): `[Specific content description 450-480 words] + [Age/season annotation 20 words] + [Global style 100 words]`
+- **Prompt Construction (Multi-level fusion, total length ≤900 Chinese characters)**:
+  - **Base Structure** (Characters/Scenes): `[Specific content description 500-550 words] + [Age/season annotation 20 words] + [Style integration from style.md 150-200 words]`
   - **Storyboard Structure** (Single frame generation, consecutive frames related):
     ```
-    Start Frame: [Shot type 10 words] + [Spatial context from previous shot 30 words] + [Core scene description 260-300 words] + [Camera angle and character facing direction 30 words] + [Chapter atmosphere 60 words] + [Global style 100 words]
-    End Frame: [Shot type 10 words] + [Core scene description 280-320 words] + [SAME SHOT continuation emphasis 50 words] + [Chapter atmosphere 60 words] + [Global style 100 words]
+    Start Frame: [Shot type 10 words] + [Spatial context from previous shot 30 words] + [Core scene description 280-320 words] + [Camera angle and character facing direction 30 words] + [Chapter atmosphere 60 words] + [Style integration from style.md 150-200 words]
+    End Frame: [Shot type 10 words] + [Core scene description 300-340 words] + [SAME SHOT continuation emphasis 50 words] + [Chapter atmosphere 60 words] + [Style integration from style.md 150-200 words]
     ```
     - **🔴 End Frame MUST emphasize**: "Same shot continuation, maintaining identical scene, lighting, and atmosphere from start frame. Only [describe specific changes: character movement/camera adjustment/focal shift]."
     - **🔴 Start Frame MUST specify spatial logic**: 
@@ -57,10 +62,10 @@
       - Only describe progression: character action changes, camera movement (dolly/pan/tilt), or focal adjustments
   - **Expansion and Optimization Tips**:
     - Fully expand core visual elements in scene description, include more details (scene layout, character state, object close-ups, environmental atmosphere, etc.)
-    - Global style can describe art style features, color schemes, lighting effects, line texture, artistic style in detail
+    - **Style integration from style.md must be COMPREHENSIVE**: Include art style features (Japanese Shinkai + Chinese ancient style fusion), color schemes (select main colors from current story phase), lighting effects (describe specific light sources and shadows), line texture quality, composition principles, visual tone
     - Chapter atmosphere can include emotional tone, color preferences, pacing feel, period sense, etc.
     - Age/season must be clearly marked (e.g., "少年时期", "秋季黄昏")
-    - Fully utilize 600 character space, let model get richer information to generate high-quality images
+    - Fully utilize 900 character space, let model get richer information to generate high-quality images
 - **Prepare Reference Images (max 6, try to fill up)**:
   - **Character Derivative Images**: Use **corresponding age/scene front view** (1 image)
   - **Scene Derivative Images**: Use **corresponding season/weather wide shot** (1 image)
@@ -125,7 +130,8 @@
 - File names strictly follow the above format to ensure clear file organization
 
 ### Storyboard Generation Special Rules
-- **Single Image Generation Principle**: Generate one image at a time (num_images=1), 前帧 and 尾帧 generated separately
+- **Sequential Frame Generation Principle**: Generate frames one by one, 前帧 first, then 尾帧
+- **Frame Dependency**: 尾帧 generation MUST depend on the generated 前帧 image - 前帧 is passed as reference_images to ensure visual continuity
 - **End Frame Forced Dependency**: 尾帧 must place corresponding 前帧 in first position of reference images
 - **Try to Fill Reference Images**: Try to prepare 6 reference images each time, including:
   - Core references (前帧/正面照/远景)
@@ -176,9 +182,15 @@
 
 ### Art Style Consistency 🎨
 - **Must conform to style.md settings**: line style, color matching, lighting effects, texture quality
+- **Detailed style.md compliance check**:
+  - Line work: Verify protagonist has 2-3px sharp outlines, details 0.5-1px fine, background 0.25-0.5px soft
+  - Color palette: Confirm 2-3 dominant colors match current story phase (Phase 1: gold/emerald/dark purple; Phase 2: grey/cyan/blood red; Phase 3: moonwhite/spirit blue/gold)
+  - Lighting: Check for single light source principle, high contrast shadows, atmospheric depth
+  - Art fusion: Identify Japanese Shinkai elements (delicate light effects, dreamy atmosphere) AND Chinese ancient elements (architecture, clothing, cultural aesthetics)
+  - Composition: Verify high contrast framing, clear focal points, layered depth with dramatic shadows
 - Same series of images (正面照/三视图/表情/动作) must have highly consistent art style
 - Multiple angles of same scene should have coordinated art style
-- Common issues: sudden color changes, inconsistent line thickness, mismatched styles
+- Common issues: sudden color changes, inconsistent line thickness, mismatched styles, style fusion elements missing
 
 ### Other Checks
 - **Obvious Defects**: Generation distortion, anomalies, character deformities, etc.
@@ -214,10 +226,16 @@
 
 **Key Points** (English prompts recommended for better model performance):
 - Use natural language description, like telling a story
-- Scene description is the core content (280-320 words)
+- Scene description is the core content (280-340 words)
 - Start frame and end frame must have strong continuity
-- Include shot type, chapter atmosphere, and global style
-- Total length ≤600 words per prompt
+- Include shot type, chapter atmosphere, and comprehensive global style integration
+- **Total length: 800-900 words per prompt** (increased from 600 to ensure style compliance)
+- **CRITICAL**: Extract and integrate style.md elements:
+  - Art style fusion: Japanese Shinkai + Chinese ancient elements
+  - Color palette: Select 2-3 main colors from current story phase in style.md
+  - Lighting: Describe specific light source, shadow depth, and atmosphere
+  - Line work: Specify detail level (protagonist: 2-3px clear lines, details: 0.5-1px fine lines, background: 0.25-0.5px soft)
+  - Composition: Mention high contrast, clear focal point, layered depth
 
 ### Critical Considerations for Tool Integration 🎯
 
@@ -244,14 +262,26 @@
   - Add explicit instruction: *"This frame must logically follow [previous state]. Maintain consistency in character state, location, lighting. Do NOT create unrealistic jumps or contradictions."*
   - For derivative images (expressions, actions): *"Based on [base character front view], generate variation while maintaining age/identity."*
 
-**Prompt Format Examples**:
-- **前帧**: `[Shot type] + [Scene/character/action details 280-320 words] + [Previous shot relation if any 50 words] + [Chapter atmosphere 60 words] + [Style 100 words]`
-- **尾帧**: `[SAME SHOT CONTINUATION] + [State unchanged elements] + [ONLY changed: character/camera progression] + [Chapter atmosphere 60 words] + [Style 100 words]`
+**Prompt Format Examples (with comprehensive style.md integration)**:
+- **前帧**: `[Shot type] + [Scene/character/action details 280-320 words] + [Previous shot relation if any 50 words] + [Chapter atmosphere 60 words] + [Comprehensive style integration 180-220 words]`
+- **尾帧**: `[SAME SHOT CONTINUATION] + [State unchanged elements] + [ONLY changed: character/camera progression] + [Chapter atmosphere 60 words] + [Comprehensive style integration 180-220 words]`
+
+**Style Integration Template** (Must extract from current story phase in style.md):
+```
+Art Style: [Japanese Shinkai distinctive features] + [Chinese ancient architectural/clothing elements]
+Color Palette: [2-3 dominant colors from current phase] with supporting accent colors
+Lighting: [Specific light source description], [shadow treatment], [atmospheric effects], [contrast intensity]
+Line Work: Protagonist outlines 2-3px sharp and flowing, details 0.5-1px fine and precise, background 0.25-0.5px soft
+Composition: [High contrast framing], [Clear focal point with emphasis], [Layered depth], [Dramatic shadow placement]
+Visual Tone: [Emotional resonance], [Temporal/seasonal quality], [Cinematic atmosphere]
+```
 
 **Key Points**:
 - **🔴 尾帧必须以 "[SAME SHOT CONTINUATION]" 开头**，强调是同一镜头
 - **尾帧先说明不变的**（场景/光照/天气），再描述变化（角色移动/镜头调整）
+- **Style integration must fill 180-220 words** - DO NOT use generic style phrases, extract SPECIFIC details from style.md
 - Use natural language, complete sentences, not fragmented keywords
+- **Ensure color palette is tied to story phase** (check style.md Phase 1/2/3 colors)
 
 ### Generation Strategy
 - **Generate by Storyboard Order**: Ensure can use previous shots as reference

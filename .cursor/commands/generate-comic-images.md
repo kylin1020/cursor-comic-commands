@@ -40,11 +40,17 @@
 
 ### Step 2: Optimize Prompts and Prepare Generation Parameters
 - **Prompt Construction (Multi-level fusion, total length ≤900 Chinese characters)**:
-  - **Base Structure** (Characters/Scenes): `[Specific content description 500-550 words] + [Age/season annotation 20 words] + [Style integration from style.md 150-200 words]`
+  - **🔴 CRITICAL: Reference Image Purpose Declaration** (Must be included at prompt beginning, ~80-100 words):
+    - **Explicitly state the purpose of EACH reference image** to prevent over-fitting
+    - Character front views: "Reference images show character's identity, age, facial features, and overall appearance style ONLY. DO NOT copy pose, direction, or specific action from reference. Follow text prompt for actual pose and direction."
+    - Scene images: "Reference images show location environment, architecture style, and spatial layout ONLY. DO NOT copy exact composition, camera angle, or lighting from reference. Follow text prompt for camera work and atmosphere."
+    - Previous frame (for 尾帧): "Reference start frame for scene continuity and character state ONLY. Character direction, pose, and camera angle should progress according to text description, not stay frozen."
+    - Expression/action references: "Reference for [specific purpose, e.g., emotional intensity, gesture style]. Adapt to current context per text prompt."
+  - **Base Structure** (Characters/Scenes): `[Reference purpose declaration 80-100 words] + [Specific content description 450-500 words] + [Age/season annotation 20 words] + [Style integration from style.md 150-200 words]`
   - **Storyboard Structure** (Single frame generation, consecutive frames related):
     ```
-    Start Frame: [Shot type 10 words] + [Spatial context from previous shot 30 words] + [Core scene description 280-320 words] + [Camera angle and character facing direction 30 words] + [Chapter atmosphere 60 words] + [Style integration from style.md 150-200 words]
-    End Frame: [Shot type 10 words] + [Core scene description 300-340 words] + [SAME SHOT continuation emphasis 50 words] + [Chapter atmosphere 60 words] + [Style integration from style.md 150-200 words]
+    Start Frame: [Reference purpose declaration 80-100 words] + [Shot type 10 words] + [Spatial context from previous shot 30 words] + [Core scene description 230-270 words] + [Camera angle and character facing direction 30 words] + [Chapter atmosphere 60 words] + [Style integration from style.md 150-200 words]
+    End Frame: [Reference purpose declaration 80-100 words] + [Shot type 10 words] + [Core scene description 250-290 words] + [SAME SHOT continuation emphasis 50 words] + [Chapter atmosphere 60 words] + [Style integration from style.md 150-200 words]
     ```
     - **🔴 End Frame MUST emphasize**: "Same shot continuation, maintaining identical scene, lighting, and atmosphere from start frame. Only [describe specific changes: character movement/camera adjustment/focal shift]."
     - **🔴 Start Frame MUST specify spatial logic**: 
@@ -67,6 +73,7 @@
     - Age/season must be clearly marked (e.g., "少年时期", "秋季黄昏")
     - Fully utilize 900 character space, let model get richer information to generate high-quality images
 - **Prepare Reference Images (max 6, try to fill up)**:
+  - **🔴 CRITICAL**: When using reference images, **MUST declare their purpose in prompt** to prevent over-fitting (see Reference Purpose Declaration section)
   - **Character Derivative Images**: Use **corresponding age/scene front view** (1 image)
   - **Scene Derivative Images**: Use **corresponding season/weather wide shot** (1 image)
   - **Storyboard Start Frame** (max 6 images):
@@ -125,6 +132,7 @@
 ### General Rules
 - Base reference images (正面照, 远景) **do not use** reference images, pure text generation
 - Derivative images **must** use corresponding base reference images to ensure consistency
+- **🔴 CRITICAL**: All prompts using reference images **MUST include Reference Purpose Declaration** at the beginning (~80-100 words) to prevent over-fitting and ensure model follows text instructions for pose/direction/angle
 - All derivative images of the same character/scene use the same base reference image
 - Automatically create directories if they don't exist
 - File names strictly follow the above format to ensure clear file organization
@@ -225,8 +233,9 @@
 ### Prompt Format (Single Frame Generation)
 
 **Key Points** (English prompts recommended for better model performance):
+- **🔴 MUST START with Reference Image Purpose Declaration** (~80-100 words) - this prevents model from over-fitting reference images
 - Use natural language description, like telling a story
-- Scene description is the core content (280-340 words)
+- Scene description is the core content (230-290 words, adjusted for reference purpose declaration)
 - Start frame and end frame must have strong continuity
 - Include shot type, chapter atmosphere, and comprehensive global style integration
 - **Total length: 800-900 words per prompt** (increased from 600 to ensure style compliance)
@@ -259,12 +268,28 @@
   - Don't remove characters or objects that existed in 前帧
   
 - **Prompt Emphasis for Tool**:
+  - **🔴 MUST BEGIN with Reference Purpose Declaration** (~80-100 words) specifying what each reference image provides and what it does NOT dictate
   - Add explicit instruction: *"This frame must logically follow [previous state]. Maintain consistency in character state, location, lighting. Do NOT create unrealistic jumps or contradictions."*
-  - For derivative images (expressions, actions): *"Based on [base character front view], generate variation while maintaining age/identity."*
+  - For derivative images (expressions, actions): *"REFERENCE PURPOSE: The character front view shows identity, age, and appearance style ONLY - do not copy pose or direction. Generate the described [expression/action] freely per text prompt."*
+  - For storyboard frames: *"REFERENCE PURPOSES: [List each reference and its specific purpose]. Follow text description for actual pose, direction, camera angle, and composition."*
 
 **Prompt Format Examples (with comprehensive style.md integration)**:
-- **前帧**: `[Shot type] + [Scene/character/action details 280-320 words] + [Previous shot relation if any 50 words] + [Chapter atmosphere 60 words] + [Comprehensive style integration 180-220 words]`
-- **尾帧**: `[SAME SHOT CONTINUATION] + [State unchanged elements] + [ONLY changed: character/camera progression] + [Chapter atmosphere 60 words] + [Comprehensive style integration 180-220 words]`
+- **前帧**: `[Reference purpose declaration 80-100 words] + [Shot type] + [Scene/character/action details 230-270 words] + [Previous shot relation if any 50 words] + [Chapter atmosphere 60 words] + [Comprehensive style integration 180-220 words]`
+- **尾帧**: `[Reference purpose declaration 80-100 words] + [SAME SHOT CONTINUATION] + [State unchanged elements] + [ONLY changed: character/camera progression] + [Chapter atmosphere 60 words] + [Comprehensive style integration 180-220 words]`
+
+**Reference Purpose Declaration Examples**:
+- For **前帧** with character + scene + previous frame:
+  ```
+  REFERENCE IMAGE PURPOSES: The provided character front view is for identity, age, and facial features reference ONLY - do not copy their pose or facing direction. The scene wide shot shows environment layout and architecture style ONLY - do not copy camera angle or exact composition. The previous frame shows continuity context ONLY - current shot should follow logically but with distinct camera positioning as described below. Follow the text description for all pose, direction, and camera work.
+  ```
+- For **尾帧** with start frame + character + scene:
+  ```
+  REFERENCE IMAGE PURPOSES: The start frame (first reference) shows scene environment, lighting, and character state to maintain continuity - character should progress naturally in pose and position as described, NOT stay frozen. Character front views are for identity consistency ONLY - adapt pose and direction per text. Scene image is for environment style ONLY. All composition and camera work must follow text description below.
+  ```
+- For **character derivative images** (expressions/actions) with front view:
+  ```
+  REFERENCE IMAGE PURPOSES: The character front view shows identity, age, facial structure, and appearance style for consistency ONLY. Generate the described [expression/action/pose] freely based on text prompt - do not rigidly copy the reference pose or angle.
+  ```
 
 **Style Integration Template** (Must extract from current story phase in style.md):
 ```
@@ -277,8 +302,10 @@ Visual Tone: [Emotional resonance], [Temporal/seasonal quality], [Cinematic atmo
 ```
 
 **Key Points**:
-- **🔴 尾帧必须以 "[SAME SHOT CONTINUATION]" 开头**，强调是同一镜头
+- **🔴 CRITICAL: Every prompt MUST start with Reference Purpose Declaration** (~80-100 words) to prevent over-fitting
+- **🔴 尾帧必须以 "[SAME SHOT CONTINUATION]" 开头**（在 Reference Purpose Declaration 之后），强调是同一镜头
 - **尾帧先说明不变的**（场景/光照/天气），再描述变化（角色移动/镜头调整）
+- **Reference purpose must be specific**: State what each reference image provides (identity/environment/continuity) and what it does NOT dictate (pose/angle/direction)
 - **Style integration must fill 180-220 words** - DO NOT use generic style phrases, extract SPECIFIC details from style.md
 - Use natural language, complete sentences, not fragmented keywords
 - **Ensure color palette is tied to story phase** (check style.md Phase 1/2/3 colors)

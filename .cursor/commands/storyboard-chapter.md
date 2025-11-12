@@ -6,8 +6,10 @@
 - [ ] Split shots by scene, plot, emotion
 - [ ] For each storyboard (one at a time):
   - [ ] Write script (shot type, scene, action, dialogue, emotion)
-  - [ ] Generate start/end frame image prompts (English, natural language)
-  - [ ] Generate video clip prompts (**中文，自然语言描述**)
+  - [ ] **Check spatial continuity with previous shot** - ensure character positions and movements are logical
+  - [ ] **Determine camera angle and perspective** - specify front/back/side view based on action direction
+  - [ ] Generate start/end frame image prompts (English, natural language) - **MUST include camera angle, character facing direction, object placement**
+  - [ ] Generate video clip prompts (**中文，自然语言描述**) - **MUST describe spatial movement and directional logic**
   - [ ] **Immediately output this storyboard to md file** (incremental write)
 - [ ] Continue until all storyboards are generated and written to `outputs/storyboard/chapter-<章节号>/storyboard.md`
 
@@ -24,6 +26,29 @@
 - Location changes → New shot
 - Time jumps → New shot
 - Viewpoint changes significantly → New shot
+
+### Spatial Continuity Between Shots (Critical 🔴)
+- **Characters cannot teleport** - must move through space logically between consecutive shots
+- **Track spatial relationships** - if shot A shows character in courtyard, shot B showing them inside house needs logical transition (e.g., approaching door, entering doorway)
+- **Maintain directional consistency** - if character moves towards an object in shot A, shot B should respect that spatial relationship and direction
+- **Consider transition shots** - when characters move between locations, may need intermediate shot showing the movement/transition
+
+### Camera Perspective and Physical Logic (Critical 🔴)
+- **Camera angle relative to action** - explicitly specify if camera is:
+  - Front view: character facing camera
+  - Side view: character perpendicular to camera
+  - Back view: character facing away from camera, showing their back
+  - Over-shoulder: camera behind character looking at what they see
+  - Other angles: three-quarter view, high angle, low angle, etc.
+- **Action direction must match visuals** - "running towards X" means:
+  - If front view: character runs towards camera, X is behind camera
+  - If back view: character runs away from camera, X is visible in background/distance ahead of character
+  - If side view: character runs across frame, X is on one side of the frame
+- **Object/destination placement logic** - if character moves towards destination, destination should be:
+  - In front of character (in their path of movement)
+  - Visible in background/distance based on camera angle
+  - NOT behind the character unless they're moving away from it
+- **Movement respects physics** - characters cannot instantly change location, speed, or direction without logical progression
 
 ### Pacing Control
 - Fast-paced action: 3-5 seconds/shot
@@ -55,10 +80,20 @@
 - Reference scene features from `scenes/`
 - Follow `style.md` style definition
 - 300-500 words (English)
+- **MUST specify spatial and directional details** (🔴 Critical):
+  - Camera angle: front view / side view / back view / over-shoulder / etc.
+  - Character facing direction: towards camera / away from camera / left/right
+  - Object/destination placement: in front of / behind / left/right of character
+  - Spatial relationship to previous shot (if applicable): "continuing from previous location" / "has moved from X to Y"
 
 **Example (English, natural language)**:
 ```
 This is a medium shot showing a 20-year-old young man named 李小明 standing inside a cozy cafe. He has short black hair and brown eyes, wearing a simple white shirt and dark pants. His hands rest naturally at his sides, and his expression is calm as he looks forward. The cafe around him has a warm, inviting atmosphere with wooden tables and chairs, and soft warm-toned lighting creates a comfortable ambiance. The camera captures him from the front, with his figure positioned slightly left of center in the frame. The artwork follows a Japanese anime style similar to Makoto Shinkai's work, featuring clear, precise line work, bright and pleasant colors, and high-quality detailed rendering.
+```
+
+**Example with Spatial Logic (Running towards destination)**:
+```
+This is a medium shot captured from a back/side angle showing a 16-year-old boy named 田林 running through a courtyard towards a mud house. The camera is positioned behind and slightly to the side of 田林, showing his back and left side. He is running away from the camera, moving diagonally towards the upper right of the frame. The mud house with its thatched roof is clearly visible in the background ahead of him, about 15 meters away. He is holding a bamboo crutch in his right hand, using it to support his movement as he runs. His tattered gray clothing flutters slightly with his movement. The courtyard ground shows scattered debris and broken fence pieces on both sides of his path. The lighting is dim and overcast. The camera follows his movement with a slight tracking motion. The artwork follows a Japanese anime style with detailed rendering.
 ```
 
 ### Video Clip Prompts
@@ -72,6 +107,11 @@ This is a medium shot showing a 20-year-old young man named 李小明 standing i
 **Example (中文，自然语言)**:
 ```
 这是一个固定机位的中景镜头。场景开始时，李小明平静地站在咖啡厅里。随着时间推移，他的身体开始微微前倾，右手从身侧缓缓抬起，最终指向前方。他的面部表情逐渐变化——从平静、中性的表情开始，眼睛因看到什么而逐渐睁大，嘴巴也因反应而微微张开。在这4秒的序列中，背景咖啡厅的灯光保持稳定一致，维持着温馨的氛围。他的动作节奏适中自然，既不匆忙也不过于缓慢。动画遵循日本动漫风格，角色动作流畅自然，感觉真实可信。
+```
+
+**Example with Spatial Movement (带空间移动的示例，中文，自然语言)**:
+```
+这是一个4秒的镜头序列，采用背侧角度跟拍的中景镜头。画面开始时，田林刚刚意识到危险，站在院子里，面向远处的土房。镜头从他的背后和侧面拍摄，我们能看到他的背影和左侧身。随着镜头推进，田林拖着竹拐杖开始向土房方向奔跑，他的身体从画面左下方向画面右上方的土房移动。土房在他前方的背景中始终清晰可见，距离从15米逐渐缩短到10米左右。他的动作急促但略显吃力，因为需要依靠拐杖支撑。破旧的衣服随着他的移动微微飘动。镜头以轻微的跟拍移动保持他在画面中的位置。整个过程中，院子的昏暗光线和散落的篱笆碎片保持一致。节奏紧迫，体现角色的焦虑状态。动画采用日系动漫风格，动作流畅自然。
 ```
 
 ---
@@ -176,10 +216,23 @@ Need to provide:
 
 ## ⚠️ Notes
 
+### Visual Continuity
 - Adjacent storyboards visually coherent
 - Character appearance, clothing, lighting maintain consistency
 - Follow 180-degree axis rule
 - Prompts sufficiently detailed, reference character and scene settings
+
+### Spatial and Physical Logic (Critical 🔴)
+- **Characters cannot teleport between shots** - must show logical spatial progression
+- **Camera angle must match action description** - if character "runs towards house", specify:
+  - Back view: character runs away from camera, house visible in background ahead
+  - Side view: character runs across frame, house on one side
+  - Front view: character runs towards camera, house behind camera
+- **Track character positions** across consecutive shots - maintain spatial continuity
+- **Object placement must be logical** - if character moves towards something, it should be in their path, not behind them
+- **Consider perspective for each shot** - explicitly state camera angle and character facing direction in prompts
+
+### Technical Constraints
 - Single shot no longer than 15 seconds
 - Consider AI video generation technology limitations (3-10 seconds)
 

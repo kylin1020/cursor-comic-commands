@@ -16,6 +16,16 @@
   - **Main variations between frames** should be: camera position/angle changes (if camera moves), character action progression, focal length adjustments, but NOT scene/location changes
   - **Lighting and atmospheric conditions must stay consistent** - no sudden day-to-night jumps, no weather changes, no unexplained environment transformations
   - When generating 尾帧, emphasize in prompt: "Same shot continuation from 前帧, maintaining identical scene environment, lighting, and atmosphere"
+- **Spatial Logic Between Shots** (Critical 🔴):
+  - **Analyze spatial relationships between consecutive shots** - characters cannot teleport, must move through space logically
+  - If shot A shows character in courtyard, shot B cannot suddenly show them inside house without showing the transition (e.g., approaching door, entering)
+  - **Track character positions and directions** across shots - if character moves towards an object, subsequent shots should respect that spatial relationship
+  - **Camera perspective must respect spatial continuity** - if character is moving towards a location, they might be shot from behind (back view) with destination in background, not always facing camera
+- **Physical and Directional Logic** (Critical 🔴):
+  - **"Running towards X" does NOT always mean facing camera** - character may be shot from behind/side, with X visible in background/distance
+  - **Object/destination placement must match action** - if character runs towards house, house should be in front of character in the frame, not behind
+  - **Consider camera angle relative to action direction** - side view, back view, or front view each creates different spatial relationships
+  - **Movement must respect physics** - characters cannot instantly change locations, speeds, or directions without logical progression
 - **Read and Extract Key Information (Multi-level Fusion)**:
   - Read `style.md` to extract **global style keywords** (art style, color tone, lighting, line work, texture, artistic style, etc., about 100 characters)
   - Read current chapter storyboard.md to extract **chapter atmosphere keywords** (emotion, color tone, pacing, environmental tone, period feel, etc., about 60 characters)
@@ -25,13 +35,18 @@
 
 ### Step 2: Optimize Prompts and Prepare Generation Parameters
 - **Prompt Construction (Multi-level fusion, total length ≤600 Chinese characters)**:
-  - **Base Structure** (Characters/Scenes): `[Specific content description 450-480 chars] + [Age/season annotation 20 chars] + [Global style 100 chars]`
+  - **Base Structure** (Characters/Scenes): `[Specific content description 450-480 words] + [Age/season annotation 20 words] + [Global style 100 words]`
   - **Storyboard Structure** (Single frame generation, consecutive frames related):
     ```
-    Start Frame: [Shot type 10 chars] + [Core scene description 280-320 chars] + [Relation to previous shot 50 chars (if any)] + [Chapter atmosphere 60 chars] + [Global style 100 chars]
-    End Frame: [Shot type 10 chars] + [Core scene description 280-320 chars] + [SAME SHOT continuation emphasis 50 chars] + [Chapter atmosphere 60 chars] + [Global style 100 chars]
+    Start Frame: [Shot type 10 words] + [Spatial context from previous shot 30 words] + [Core scene description 260-300 words] + [Camera angle and character facing direction 30 words] + [Chapter atmosphere 60 words] + [Global style 100 words]
+    End Frame: [Shot type 10 words] + [Core scene description 280-320 words] + [SAME SHOT continuation emphasis 50 words] + [Chapter atmosphere 60 words] + [Global style 100 words]
     ```
     - **🔴 End Frame MUST emphasize**: "Same shot continuation, maintaining identical scene, lighting, and atmosphere from start frame. Only [describe specific changes: character movement/camera adjustment/focal shift]."
+    - **🔴 Start Frame MUST specify spatial logic**: 
+      - Where is character relative to previous shot location (if applicable)
+      - What direction is character facing/moving
+      - Camera angle relative to character action (front view / side view / back view / over-shoulder / etc.)
+      - Where are key objects/destinations in the frame relative to character
   - **Scene Description is Core** (Most Important):
     - **Must include** the "scene description" content from storyboard, this is the most core visual element
     - Scene description includes: scene environment, character appearance and actions, expressions, object details, lighting atmosphere, etc.
@@ -98,20 +113,9 @@
 **Storyboard Images**: Generated last, single frame by frame (前帧 → 尾帧, 尾帧 must use 前帧 as reference image)
 
 ### Output Path Specifications
-**Character Images**: `outputs/characters/[角色名]/[类型].png`
-- 正面照: `outputs/characters/[角色名]/正面照.png`
-- 三视图: `outputs/characters/[角色名]/三视图.png`
-- 表情参考: `outputs/characters/[角色名]/表情参考图.png`
-- 动作参考: `outputs/characters/[角色名]/动作参考图.png`
-
-**Scene Images**: `outputs/scenes/[场景名]/[类型].png`
-- 远景: `outputs/scenes/[场景名]/远景.png`
-- 中景: `outputs/scenes/[场景名]/中景.png`
-- 近景: `outputs/scenes/[场景名]/近景.png`
-
-**Storyboard Images**: `outputs/chapters/[章节名]/[分镜号]-[分镜名称]_[帧号].png`
-- Example: `outputs/chapters/chapter-001/分镜01-开篇远景_1.png` (前帧)
-- Example: `outputs/chapters/chapter-001/分镜01-开篇远景_2.png` (尾帧)
+**Character Images**: `outputs/characters/[角色名]/[类型].png` (类型: 正面照/三视图/表情参考/动作参考)
+**Scene Images**: `outputs/scenes/[场景名]/[类型].png` (类型: 远景/中景/近景)
+**Storyboard Images**: `outputs/chapters/[章节名]/[分镜号]-[分镜名称]_[帧号].png` (帧号: 1=前帧, 2=尾帧)
 
 ### General Rules
 - Base reference images (正面照, 远景) **do not use** reference images, pure text generation
@@ -240,26 +244,14 @@
   - Add explicit instruction: *"This frame must logically follow [previous state]. Maintain consistency in character state, location, lighting. Do NOT create unrealistic jumps or contradictions."*
   - For derivative images (expressions, actions): *"Based on [base character front view], generate variation while maintaining age/identity."*
 
-**Example (Based on 分镜001, English natural language)**:
-
-**Start Frame:**
-```
-This is a wide shot capturing the full panorama of a dilapidated farmhouse courtyard. The scene shows a crude earthen house standing in the center, with collapsed fence walls scattered across the ground in disarray. In the distance, rolling mountains rise and fall against an overcast, gloomy sky that casts a somber mood over everything. On a small path to the right side of the frame, two small figures dressed in tattered, worn clothes are making their way towards the courtyard. The entire yard has a desolate, abandoned feel, with weeds growing wild throughout the space. This is the opening scene of the story, and the atmosphere is oppressive and heavy, setting a melancholic tone. The artwork combines the signature style of Japanese animator Makoto Shinkai with traditional Chinese classical artistic elements, featuring a gloomy color palette that emphasizes the desolate atmosphere. The composition uses strong contrasts between light and dark areas, with intricate attention to detail throughout, resulting in high-quality, exquisite artwork that draws viewers into this somber world.
-```
-
-**End Frame:**
-```
-[SAME SHOT CONTINUATION] This is the exact same wide shot of the farmhouse courtyard from the identical camera position and angle. The scene environment remains completely unchanged: same dilapidated earthen house in center, same collapsed fence walls, same rolling mountains in background, same overcast gloomy sky. Lighting conditions are identical to the start frame - same time of day, same atmospheric mood. The ONLY change is the character positioning: the two figures have now moved closer to the courtyard entrance - 田林 leaning on his bamboo pole is now more visible in the frame, with the elderly man slightly ahead. The fence and house door maintain their exact appearance and positions. Everything about the environment, lighting, weather, and composition remains consistent with the start frame. This is a fixed camera capturing character movement progression within the same continuous moment. The oppressive atmosphere persists unchanged. The artwork maintains the identical fusion of Makoto Shinkai's style with Chinese classical elements, with the same gloomy color palette, same light-dark contrasts, and consistent detail rendering throughout.
-```
+**Prompt Format Examples**:
+- **前帧**: `[Shot type] + [Scene/character/action details 280-320 words] + [Previous shot relation if any 50 words] + [Chapter atmosphere 60 words] + [Style 100 words]`
+- **尾帧**: `[SAME SHOT CONTINUATION] + [State unchanged elements] + [ONLY changed: character/camera progression] + [Chapter atmosphere 60 words] + [Style 100 words]`
 
 **Key Points**:
-- Use complete sentences and natural flow, not fragmented phrases
-- Describe the scene as if explaining it to someone who can't see it
-- **🔴 CRITICAL: Start with "[SAME SHOT CONTINUATION]" in end frame prompts** to emphasize this is the same shot
-- **Explicitly state "identical camera position/angle"** in end frame description
-- **List what remains unchanged** (scene, lighting, weather, environment) before describing what changed
-- **Only describe progressive changes**: character movement, camera movement (if any), or natural action progression
-- Integrate style elements naturally into the description while maintaining consistency statements
+- **🔴 尾帧必须以 "[SAME SHOT CONTINUATION]" 开头**，强调是同一镜头
+- **尾帧先说明不变的**（场景/光照/天气），再描述变化（角色移动/镜头调整）
+- Use natural language, complete sentences, not fragmented keywords
 
 ### Generation Strategy
 - **Generate by Storyboard Order**: Ensure can use previous shots as reference

@@ -10,6 +10,12 @@
 - **Scene Analysis**:
   - Check if the scene has seasonal variation descriptions (e.g., 春夏秋冬, sunny/rainy), need to generate base reference images for **each season/weather**
   - Medium shots and close-ups of scenes need to be generated according to the corresponding season
+- **Storyboard Frame Continuity Analysis** (Critical 🔴):
+  - **前帧 and 尾帧 are consecutive frames of the SAME shot** - usually representing a fixed camera or camera movement (pan, tilt, dolly, zoom)
+  - **Scene environment should remain HIGHLY CONSISTENT** between 前帧 and 尾帧: same location, same lighting conditions, same weather, same time of day
+  - **Main variations between frames** should be: camera position/angle changes (if camera moves), character action progression, focal length adjustments, but NOT scene/location changes
+  - **Lighting and atmospheric conditions must stay consistent** - no sudden day-to-night jumps, no weather changes, no unexplained environment transformations
+  - When generating 尾帧, emphasize in prompt: "Same shot continuation from 前帧, maintaining identical scene environment, lighting, and atmosphere"
 - **Read and Extract Key Information (Multi-level Fusion)**:
   - Read `style.md` to extract **global style keywords** (art style, color tone, lighting, line work, texture, artistic style, etc., about 100 characters)
   - Read current chapter storyboard.md to extract **chapter atmosphere keywords** (emotion, color tone, pacing, environmental tone, period feel, etc., about 60 characters)
@@ -23,12 +29,17 @@
   - **Storyboard Structure** (Single frame generation, consecutive frames related):
     ```
     Start Frame: [Shot type 10 chars] + [Core scene description 280-320 chars] + [Relation to previous shot 50 chars (if any)] + [Chapter atmosphere 60 chars] + [Global style 100 chars]
-    End Frame: [Shot type 10 chars] + [Core scene description 280-320 chars] + [Continuation from start frame 50 chars] + [Chapter atmosphere 60 chars] + [Global style 100 chars]
+    End Frame: [Shot type 10 chars] + [Core scene description 280-320 chars] + [SAME SHOT continuation emphasis 50 chars] + [Chapter atmosphere 60 chars] + [Global style 100 chars]
     ```
+    - **🔴 End Frame MUST emphasize**: "Same shot continuation, maintaining identical scene, lighting, and atmosphere from start frame. Only [describe specific changes: character movement/camera adjustment/focal shift]."
   - **Scene Description is Core** (Most Important):
     - **Must include** the "scene description" content from storyboard, this is the most core visual element
     - Scene description includes: scene environment, character appearance and actions, expressions, object details, lighting atmosphere, etc.
-    - Start frame and end frame scene descriptions must have **continuity and correlation** (beginning and end of the same shot)
+    - **Start frame and end frame are THE SAME SHOT** (beginning and end moments):
+      - Scene location/background: MUST BE IDENTICAL (same room, same outdoor area, same viewing angle)
+      - Lighting/weather/time: MUST BE CONSISTENT (no day→night, sunny→rainy jumps)
+      - Camera type: MUST MAINTAIN (wide shot stays wide shot, close-up stays close-up, or natural camera movement transition)
+      - Only describe progression: character action changes, camera movement (dolly/pan/tilt), or focal adjustments
   - **Expansion and Optimization Tips**:
     - Fully expand core visual elements in scene description, include more details (scene layout, character state, object close-ups, environmental atmosphere, etc.)
     - Global style can describe art style features, color schemes, lighting effects, line texture, artistic style in detail
@@ -238,14 +249,17 @@ This is a wide shot capturing the full panorama of a dilapidated farmhouse court
 
 **End Frame:**
 ```
-This is a wide shot showing the same farmhouse courtyard panorama from the same camera angle. The environment and overall composition remain unchanged from the previous moment. The two figures have now approached much closer to the courtyard entrance - we can see 田林 more clearly now, leaning on a bamboo pole for support, with the elderly man walking slightly ahead of him. The dilapidated fence is now more clearly visible in the foreground, and the earthen house's door stands half-open, suggesting abandonment. The sky overhead remains just as gloomy and overcast as before. Everything about the environment is consistent with the start frame - same lighting, same desolate atmosphere - only the positions of the two figures have changed as they've moved closer. The oppressive, heavy atmosphere continues to pervade the scene. The artwork maintains the same fusion of Japanese Makoto Shinkai's style with Chinese classical elements, keeping the gloomy color tones and desolate mood. The strong light-dark contrasts and intricate details remain consistent, ensuring high-quality, exquisite rendering throughout.
+[SAME SHOT CONTINUATION] This is the exact same wide shot of the farmhouse courtyard from the identical camera position and angle. The scene environment remains completely unchanged: same dilapidated earthen house in center, same collapsed fence walls, same rolling mountains in background, same overcast gloomy sky. Lighting conditions are identical to the start frame - same time of day, same atmospheric mood. The ONLY change is the character positioning: the two figures have now moved closer to the courtyard entrance - 田林 leaning on his bamboo pole is now more visible in the frame, with the elderly man slightly ahead. The fence and house door maintain their exact appearance and positions. Everything about the environment, lighting, weather, and composition remains consistent with the start frame. This is a fixed camera capturing character movement progression within the same continuous moment. The oppressive atmosphere persists unchanged. The artwork maintains the identical fusion of Makoto Shinkai's style with Chinese classical elements, with the same gloomy color palette, same light-dark contrasts, and consistent detail rendering throughout.
 ```
 
 **Key Points**:
 - Use complete sentences and natural flow, not fragmented phrases
 - Describe the scene as if explaining it to someone who can't see it
-- Emphasize continuity between start and end frames
-- Integrate style elements naturally into the description
+- **🔴 CRITICAL: Start with "[SAME SHOT CONTINUATION]" in end frame prompts** to emphasize this is the same shot
+- **Explicitly state "identical camera position/angle"** in end frame description
+- **List what remains unchanged** (scene, lighting, weather, environment) before describing what changed
+- **Only describe progressive changes**: character movement, camera movement (if any), or natural action progression
+- Integrate style elements naturally into the description while maintaining consistency statements
 
 ### Generation Strategy
 - **Generate by Storyboard Order**: Ensure can use previous shots as reference

@@ -9,30 +9,20 @@
   - [ ] List missing characters (not found in `characters/` directory)
   - [ ] List missing scenes (not found in `scenes/` directory)
 - [ ] **If any missing elements found**:
-  - [ ] **⚠️ PAUSE storyboard generation**
   - [ ] **Load `/add-character-scene` command** for each missing element
   - [ ] **Execute character/scene creation** for all missing elements
-  - [ ] Wait for user confirmation that all elements are ready
-  - [ ] **Resume storyboard generation** after all elements are created
 
 ### Stage 2: Storyboard Generation Phase
-- [ ] Determine storyboard quantity and pacing
-- [ ] Split shots by scene, plot, emotion
-- [ ] For each storyboard (one at a time):
-  - [ ] Write script (shot type, scene, action, dialogue, emotion)
-  - [ ] **Check spatial continuity with previous shot** - ensure character positions and movements are logical
-  - [ ] **Determine camera angle and perspective** - specify front/back/side view based on action direction
-  - [ ] Generate start/end frame image prompts (English, natural language) - **MUST include camera angle, character facing direction, object placement**
-  - [ ] Generate video clip prompts (**中文，自然语言描述**) - **MUST describe spatial movement and directional logic**
-  - [ ] **Immediately output this storyboard to md file** (incremental write)
-- [ ] Continue until all storyboards are generated and written to `outputs/storyboard/chapter-<章节号>/storyboard.md`
+- [ ] Determine shot count & pacing (5s/shot default, 10s for complex)
+- [ ] Split by scene/plot/emotion → write to `outputs/storyboard/chapter-<#>/storyboard.md`
+- [ ] For each shot (generate one at a time):
+  - [ ] Script: shot type, scene, action, dialogue, emotion
+  - [ ] **🔴 Check 7 continuity aspects** with previous: Spatial | Temporal | Action | Eyeline | Appearance | Lighting | Environmental
+  - [ ] Specify camera angle (front/side/back view)
+  - [ ] Generate start/end frame prompts (English, 300-500 words, include continuity)
+  - [ ] Generate video prompt (中文, 300-600字, describe transitions)
 
-> ⚠️ **IMPORTANT**: 
-> 1. **Always check for missing characters/scenes first** - Never start storyboarding without verifying all required elements exist
-> 2. Since a chapter may require 20-40 storyboards, **please generate and write each storyboard incrementally** instead of generating all at once. This approach:
->    - Avoids issues with overly long responses
->    - Provides real-time progress feedback
->    - Reduces memory pressure
+> ⚠️ **CRITICAL**: Pre-check characters/scenes exist | Maintain continuity between shots | Generate incrementally (20-40 shots/chapter)
 
 ---
 
@@ -43,285 +33,121 @@
 - Time jumps → New shot
 - Viewpoint changes significantly → New shot
 
-### Spatial Continuity Between Shots (Critical 🔴)
-- **Characters cannot teleport** - must move through space logically between consecutive shots
-- **Track spatial relationships** - if shot A shows character in courtyard, shot B showing them inside house needs logical transition (e.g., approaching door, entering doorway)
-- **Maintain directional consistency** - if character moves towards an object in shot A, shot B should respect that spatial relationship and direction
-- **Consider transition shots** - when characters move between locations, may need intermediate shot showing the movement/transition
+### 7 Continuity Rules (Critical 🔴)
 
-### Camera Perspective and Physical Logic (Critical 🔴)
-- **Camera angle relative to action** - explicitly specify if camera is:
-  - Front view: character facing camera
-  - Side view: character perpendicular to camera
-  - Back view: character facing away from camera, showing their back
-  - Over-shoulder: camera behind character looking at what they see
-  - Other angles: three-quarter view, high angle, low angle, etc.
-- **Action direction must match visuals** - "running towards X" means:
-  - If front view: character runs towards camera, X is behind camera
-  - If back view: character runs away from camera, X is visible in background/distance ahead of character
-  - If side view: character runs across frame, X is on one side of the frame
-- **Object/destination placement logic** - if character moves towards destination, destination should be:
-  - In front of character (in their path of movement)
-  - Visible in background/distance based on camera angle
-  - NOT behind the character unless they're moving away from it
-- **Movement respects physics** - characters cannot instantly change location, speed, or direction without logical progression
+1. **Spatial**: Location change requires transition | 180° rule | Screen direction consistent
+2. **Temporal**: Time jump needs transition | Lighting/shadows match time
+3. **Action**: Ending pose → Starting pose connects smoothly | No repeats
+4. **Eyeline**: Gaze direction logical | Shot B shows what character sees
+5. **Appearance**: Clothing/props/physical state consistent
+6. **Lighting**: Source direction/intensity/color consistent in same scene
+7. **Environmental**: Weather/background elements unchanged in same period
+
+### Camera & Physical Logic
+- **Angles**: Front/Side/Back/Over-shoulder/High/Low angle
+- **Action-visual match**: Movement direction must align with camera angle
+- **Object placement**: Destination visible in character's path based on camera angle
+- **Physics**: No instant teleportation/speed/direction changes
 
 ### Pacing Control
-- Fast-paced action: 3-5 seconds/shot
-- Dialogue scenes: 5-10 seconds/shot
-- Emotional scenes: 10-15 seconds/shot
+- Most scenes: 5 seconds/shot
+- Complex/emotional scenes: 10 seconds/shot
 
-### Shot Types
-- **Close-up**: Emphasize expressions, details, emotions
-- **Close shot**: Above shoulders, dialogue
-- **Medium shot**: Above waist, action interaction
-- **Wide shot**: Full body, environmental relationships
-- **Panorama**: Large scenes, sense of space
-
-### Transition Methods
-- Direct cut (Cut): Fast and natural
-- Fade in/out (Fade): Time passage
-- Dissolve: Space-time transition, flashback
-- Match cut: Visual transition
+### Shot Types & Transitions
+- **Shots**: Close-up (emotion) | Close (dialogue) | Medium (action) | Wide (environment) | Panorama (space)
+- **Transitions**: Cut (default) | Fade (time passage) | Dissolve (flashback) | Match cut
 
 ---
 
 ## 📐 Prompt Writing Specifications
 
-### Start/End Frame Image Prompts
+### Start/End Frame Image Prompts (English)
 
-**Key Points** (English prompts recommended for better model performance):
-- Use natural language description, like telling a story
-- Reference character features from `characters/`
-- Reference scene features from `scenes/`
-- Follow `style.md` style definition
-- 300-500 words (English)
-- **MUST specify spatial and directional details** (🔴 Critical):
-  - Camera angle: front view / side view / back view / over-shoulder / etc.
-  - Character facing direction: towards camera / away from camera / left/right
-  - Object/destination placement: in front of / behind / left/right of character
-  - Spatial relationship to previous shot (if applicable): "continuing from previous location" / "has moved from X to Y"
+**Requirements** (300-500 words, natural language):
+- Reference `characters/` and `scenes/` features
+- Follow `style.md` definition
+- **🔴 Must include all 7 continuity elements**:
+  1. **Spatial**: Camera angle | Character position/facing | Spatial relation to previous
+  2. **Temporal**: Time of day | Lighting quality | Shadow direction
+  3. **Action**: Pose connects to previous | Ongoing movement continuation
+  4. **Eyeline**: Where looking | Eye direction
+  5. **Appearance**: Clothing/props/physical state (consistent with previous)
+  6. **Lighting**: Source direction | Color temperature
+  7. **Environmental**: Weather | Background elements
 
-**Example (English, natural language)**:
+**Example**:
 ```
-This is a medium shot showing a 20-year-old young man named 李小明 standing inside a cozy cafe. He has short black hair and brown eyes, wearing a simple white shirt and dark pants. His hands rest naturally at his sides, and his expression is calm as he looks forward. The cafe around him has a warm, inviting atmosphere with wooden tables and chairs, and soft warm-toned lighting creates a comfortable ambiance. The camera captures him from the front, with his figure positioned slightly left of center in the frame. The artwork follows a Japanese anime style similar to Makoto Shinkai's work, featuring clear, precise line work, bright and pleasant colors, and high-quality detailed rendering.
-```
-
-**Example with Spatial Logic (Running towards destination)**:
-```
-This is a medium shot captured from a back/side angle showing a 16-year-old boy named 田林 running through a courtyard towards a mud house. The camera is positioned behind and slightly to the side of 田林, showing his back and left side. He is running away from the camera, moving diagonally towards the upper right of the frame. The mud house with its thatched roof is clearly visible in the background ahead of him, about 15 meters away. He is holding a bamboo crutch in his right hand, using it to support his movement as he runs. His tattered gray clothing flutters slightly with his movement. The courtyard ground shows scattered debris and broken fence pieces on both sides of his path. The lighting is dim and overcast. The camera follows his movement with a slight tracking motion. The artwork follows a Japanese anime style with detailed rendering.
-```
-
-### Video Clip Prompts
-
-**Key Points** (**必须使用中文，自然语言描述**):
-- 使用自然语言描述动态过渡过程
-- 明确指定镜头运动和角色动作
-- 描述情绪和环境变化
-- 200-400 字（中文）
-
-**Example (中文，自然语言)**:
-```
-这是一个固定机位的中景镜头。场景开始时，李小明平静地站在咖啡厅里。随着时间推移，他的身体开始微微前倾，右手从身侧缓缓抬起，最终指向前方。他的面部表情逐渐变化——从平静、中性的表情开始，眼睛因看到什么而逐渐睁大，嘴巴也因反应而微微张开。在这4秒的序列中，背景咖啡厅的灯光保持稳定一致，维持着温馨的氛围。他的动作节奏适中自然，既不匆忙也不过于缓慢。动画遵循日本动漫风格，角色动作流畅自然，感觉真实可信。
+[CONTINUITY: Continues from previous - 李小明 approaching cafe entrance]
+Medium shot, 李小明 (20s man) just inside cafe after entering glass door.
+SPATIAL: Front view eye-level, right of center facing camera, glass door background right.
+TEMPORAL: Mid-afternoon, soft daylight through windows.
+ACTION: Right foot completing step, body weight forward (continuing walk).
+EYELINE: Looking left towards seating area.
+APPEARANCE: Short black hair, brown eyes, clean white shirt, dark pants, brown bag on left shoulder.
+LIGHTING: Warm afternoon sun from left, gentle shadows right, warm tone.
+ENVIRONMENT: Wooden tables/chairs, clear sunny weather through windows.
+Japanese anime style, clear lines, bright colors, high quality.
 ```
 
-**Example with Spatial Movement (带空间移动的示例，中文，自然语言)**:
+### Video Clip Prompts (中文)
+
+**要求** (300-600字，自然语言):
+- 描述动态过渡过程、镜头运动、角色动作
+- **🔴 必须描述所有连续性要素的动态变化**
+
+**示例**:
 ```
-这是一个4秒的镜头序列，采用背侧角度跟拍的中景镜头。画面开始时，田林刚刚意识到危险，站在院子里，面向远处的土房。镜头从他的背后和侧面拍摄，我们能看到他的背影和左侧身。随着镜头推进，田林拖着竹拐杖开始向土房方向奔跑，他的身体从画面左下方向画面右上方的土房移动。土房在他前方的背景中始终清晰可见，距离从15米逐渐缩短到10米左右。他的动作急促但略显吃力，因为需要依靠拐杖支撑。破旧的衣服随着他的移动微微飘动。镜头以轻微的跟拍移动保持他在画面中的位置。整个过程中，院子的昏暗光线和散落的篱笆碎片保持一致。节奏紧迫，体现角色的焦虑状态。动画采用日系动漫风格，动作流畅自然。
+【连续性：紧接上镜，李小明刚推开咖啡厅门】
+4秒序列，固定正面中景。
+空间：正面平视略偏右，从门口迈步入内，背景右侧玻璃门。
+时间光线：下午，柔和光从左侧窗户照入，右侧温柔阴影，暖色调晴天。
+动作：右脚落地完成一步（延续上镜），身体前倾重心前移，随后左脚迈出，左肩棕色包随晃动。
+视线：目光略偏左看座位区，眼神好奇。
+外观：白衬衫深裤左肩棕包，衣服平整。
+环境：木桌椅温暖装饰不变。
+动作流畅自然节奏适中，日系动漫风格连贯真实。
 ```
 
 ---
 
-## 🎬 Storyboard Script Output Format
+## 🎬 Output Format
 
-Output file: `outputs/storyboard/chapter-<章节号>/storyboard.md`
+Save to: `outputs/storyboard/chapter-<#>/storyboard.md`
 
 ```markdown
 # 第X章分镜脚本
-
-**章节标题**: <标题>
-**章节概要**: <简要描述>
-**总分镜数**: <数量>
-**预估时长**: <分钟>
-
----
+**章节标题**: <标题> | **概要**: <描述> | **总镜数**: <#> | **时长**: <分钟>
 
 ## 分镜概览
-
-| 分镜号 | 镜头类型 | 场景 | 角色 | 时长 | 描述 |
-|-------|---------|------|------|------|------|
-| 001 | 远景 | 咖啡厅 | 李小明 | 5秒 | 建立环境 |
-| 002 | 中景 | 咖啡厅 | 李小明 | 4秒 | 走向座位 |
-| ... | ... | ... | ... | ... | ... |
-
----
+| # | 镜头 | 场景 | 角色 | 时长 | 描述 |
+|---|-----|-----|-----|-----|-----|
+| 001 | 远景 | 咖啡厅 | 李小明 | 5s | 建立环境 |
 
 ## 详细分镜
 
 ### 【分镜 001】
+**镜头**: 远景 | **场景**: 咖啡厅 (`scenes/咖啡厅.md`) | **角色**: 李小明 (`characters/李小明.md`)
+**时长**: 5秒 | **转场**: 淡入 | **情绪**: 平静温馨
 
-**镜头类型**: 远景
-**场景**: 咖啡厅（参考：`scenes/咖啡厅.md`）
-**角色**: 李小明（参考：`characters/李小明.md`）
-**时长**: 5秒
-**转场**: 淡入
+**画面**: 咖啡厅全景，李小明从门口走进，暖色调灯光。
+**对白**: （背景音乐：轻柔爵士乐）
 
-**画面描述**:
-咖啡厅全景，李小明从门口走进，暖色调灯光营造温馨氛围。
-
-**对白/旁白**:
-（背景音乐：轻柔爵士乐）
-
-**情绪**: 平静、温馨
-
----
-
-#### Start Frame Prompt (English, natural language)
-
+#### Start Frame Prompt
 ```
-This is a wide shot showing a cozy cafe interior from an overhead angle. The scene captures a warm, inviting space with wooden tables and chairs arranged throughout, a bar counter visible in the background, and a few customers seated here and there. The lighting is warm and welcoming. On the right side of the frame, a glass door has just opened, and a 20-year-old young man named 李小明 is entering through the doorway. He has short black hair and is wearing a white shirt. The camera position is fixed, giving us a bird's-eye view of the entire scene. The artwork is rendered in a Japanese anime style with a warm color palette and high-quality detailed rendering.
+[English, 300-500 words with all 7 continuity elements]
 ```
 
----
-
-#### End Frame Prompt (English, natural language)
-
+#### End Frame Prompt
 ```
-This is a wide shot of the same cafe interior, maintaining the overhead angle and fixed camera position. The environment remains unchanged from before - the same cozy atmosphere, wooden furniture, and warm lighting. 李小明 has now walked further into the space and appears in the center-right area of the frame. We see him from behind as he heads towards the seating area on the left side of the cafe. The glass door through which he entered is now closed. Everything else in the scene remains consistent with the previous moment. The artwork continues in the same Japanese anime style with warm color tones and detailed, high-quality rendering.
+[English, 300-500 words with all 7 continuity elements]
 ```
 
----
-
-#### Video Prompt (中文，自然语言)
-
+#### Video Prompt
 ```
-这是一个5秒的序列，采用固定俯视机位的远景镜头。场景以柔和的淡入效果开始。我们看到李小明推开玻璃门，走进咖啡厅。他稳步从画面右侧边缘走向中心右侧区域，朝着左侧的座位区走去。当他穿过空间时，背景中的其他顾客展现出细微、自然的动作——小幅度的手势和轻微的移动，为场景带来生机。整个咖啡厅的温暖灯光保持稳定一致，维持着温馨、欢迎的氛围。整个序列的节奏轻松不匆忙，让观众能够充分感受环境。动画遵循日本动漫风格，角色动作流畅自然，感觉真实可信。
+【中文，300-600字，描述所有连续性要素的动态变化】
 ```
-
----
 
 ### 【分镜 002】
-... (and so on)
+...
 ```
 
----
-
-## 💡 Usage Guide
-
-### Step 1: Automatic Pre-check (New! 🆕)
-
-**Before starting storyboard generation, the system will automatically**:
-1. **Scan chapter content** to identify all mentioned characters and scenes
-2. **Check existence** of corresponding files:
-   - Look for `characters/<角色名>.md` for each character
-   - Look for `scenes/<场景名>.md` for each scene
-3. **Report missing elements**:
-   - Display list of missing characters
-   - Display list of missing scenes
-4. **Trigger creation process** if missing elements found:
-   - Automatically load `/add-character-scene` command
-   - Guide you through creating each missing character/scene
-   - Ensure all reference files are ready before proceeding
-
-> 💡 **Why this matters**: Storyboard prompts reference detailed character appearances and scene descriptions. Without these files, prompt quality will be significantly reduced, resulting in inconsistent AI-generated images.
-
-### Step 2: Provide Chapter Information
-
-Need to provide:
-1. **Chapter number**: e.g., 1, 2, 3
-2. **Chapter title**: Title name
-3. **Chapter content**: Complete text
-
-### Step 3: Storyboard Quantity Reference
-
-- Short chapter (500-1000 chars): 10-15 storyboards
-- Medium chapter (1000-2000 chars): 15-25 storyboards
-- Long chapter (2000+ chars): 25-40 storyboards
-
-### Step 4: Special Requirements (Optional)
-
-- Emotional scenes that need emphasis
-- Slow motion or special effect shots
-- Camera language preferences
-- Transition method preferences
-
----
-
-## 🔍 Example: Pre-check Process
-
-**Scenario**: User wants to create storyboard for Chapter 5
-
-**System Analysis**:
-```
-Chapter 5 mentions:
-- Characters: 李小明, 张医生 (新人物), 王护士
-- Scenes: 咖啡厅, 医院急诊室 (新场景), 街道
-```
-
-**Pre-check Results**:
-```
-✅ Found: characters/李小明.md
-❌ Missing: characters/张医生.md  
-✅ Found: characters/王护士.md
-✅ Found: scenes/咖啡厅.md
-❌ Missing: scenes/医院急诊室.md
-✅ Found: scenes/街道.md
-```
-
-**System Response**:
-```
-⚠️ Cannot proceed with storyboard generation yet!
-
-Missing elements detected:
-- Character: 张医生
-- Scene: 医院急诊室
-
-I will now guide you through creating these missing elements using the /add-character-scene command...
-
-[Proceeds to collect information and create missing character and scene files]
-
-✅ All elements ready! Proceeding with storyboard generation...
-```
-
----
-
-## ⚠️ Notes
-
-### Pre-check Requirements (Critical 🔴)
-- **Never skip the pre-check phase** - Always verify all characters and scenes exist before generating storyboards
-- **Missing elements must be created first** - Without proper character/scene reference files, prompt quality will suffer
-- **Use `/add-character-scene` command** - This ensures all new elements follow project style and structure
-- **Verify file existence** - Check `characters/` and `scenes/` directories for exact filename matches
-
-### Visual Continuity
-- Adjacent storyboards visually coherent
-- Character appearance, clothing, lighting maintain consistency
-- Follow 180-degree axis rule
-- Prompts sufficiently detailed, reference character and scene settings
-
-### Spatial and Physical Logic (Critical 🔴)
-- **Characters cannot teleport between shots** - must show logical spatial progression
-- **Camera angle must match action description** - if character "runs towards house", specify:
-  - Back view: character runs away from camera, house visible in background ahead
-  - Side view: character runs across frame, house on one side
-  - Front view: character runs towards camera, house behind camera
-- **Track character positions** across consecutive shots - maintain spatial continuity
-- **Object placement must be logical** - if character moves towards something, it should be in their path, not behind them
-- **Consider perspective for each shot** - explicitly state camera angle and character facing direction in prompts
-
-### Technical Constraints
-- Single shot no longer than 15 seconds
-- Consider AI video generation technology limitations (3-10 seconds)
-
----
-
-## 🎯 Quick Start
-
-**Ready to create a storyboard? Here's what will happen**:
-
-1. ✅ **Automatic Pre-check**: System scans chapter and verifies all characters/scenes exist
-2. 🆕 **Missing Element Creation** (if needed): Guided creation of any missing characters/scenes via `/add-character-scene`
-3. 🎬 **Storyboard Generation**: Incremental generation of detailed storyboards with spatial logic
-4. 💾 **Auto-save**: Each storyboard immediately written to markdown file
-
-**Provide your chapter information and let's begin!**

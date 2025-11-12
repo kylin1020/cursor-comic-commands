@@ -2,7 +2,21 @@
 
 ## 📋 Task Flow
 
-- [ ] Receive and analyze chapter content, determine storyboard quantity and pacing
+### Stage 1: Pre-check Phase (Critical 🔴)
+- [ ] Receive and analyze chapter content
+- [ ] **Extract all characters and scenes mentioned in chapter**
+- [ ] **Check if characters/scenes exist** in `characters/` and `scenes/` directories:
+  - [ ] List missing characters (not found in `characters/` directory)
+  - [ ] List missing scenes (not found in `scenes/` directory)
+- [ ] **If any missing elements found**:
+  - [ ] **⚠️ PAUSE storyboard generation**
+  - [ ] **Load `/add-character-scene` command** for each missing element
+  - [ ] **Execute character/scene creation** for all missing elements
+  - [ ] Wait for user confirmation that all elements are ready
+  - [ ] **Resume storyboard generation** after all elements are created
+
+### Stage 2: Storyboard Generation Phase
+- [ ] Determine storyboard quantity and pacing
 - [ ] Split shots by scene, plot, emotion
 - [ ] For each storyboard (one at a time):
   - [ ] Write script (shot type, scene, action, dialogue, emotion)
@@ -13,10 +27,12 @@
   - [ ] **Immediately output this storyboard to md file** (incremental write)
 - [ ] Continue until all storyboards are generated and written to `outputs/storyboard/chapter-<章节号>/storyboard.md`
 
-> ⚠️ **IMPORTANT**: Since a chapter may require 20-40 storyboards, **please generate and write each storyboard incrementally** instead of generating all at once. This approach:
-> - Avoids issues with overly long responses
-> - Provides real-time progress feedback
-> - Reduces memory pressure
+> ⚠️ **IMPORTANT**: 
+> 1. **Always check for missing characters/scenes first** - Never start storyboarding without verifying all required elements exist
+> 2. Since a chapter may require 20-40 storyboards, **please generate and write each storyboard incrementally** instead of generating all at once. This approach:
+>    - Avoids issues with overly long responses
+>    - Provides real-time progress feedback
+>    - Reduces memory pressure
 
 ---
 
@@ -192,20 +208,37 @@ This is a wide shot of the same cafe interior, maintaining the overhead angle an
 
 ## 💡 Usage Guide
 
-### Provide Chapter Information
+### Step 1: Automatic Pre-check (New! 🆕)
+
+**Before starting storyboard generation, the system will automatically**:
+1. **Scan chapter content** to identify all mentioned characters and scenes
+2. **Check existence** of corresponding files:
+   - Look for `characters/<角色名>.md` for each character
+   - Look for `scenes/<场景名>.md` for each scene
+3. **Report missing elements**:
+   - Display list of missing characters
+   - Display list of missing scenes
+4. **Trigger creation process** if missing elements found:
+   - Automatically load `/add-character-scene` command
+   - Guide you through creating each missing character/scene
+   - Ensure all reference files are ready before proceeding
+
+> 💡 **Why this matters**: Storyboard prompts reference detailed character appearances and scene descriptions. Without these files, prompt quality will be significantly reduced, resulting in inconsistent AI-generated images.
+
+### Step 2: Provide Chapter Information
 
 Need to provide:
 1. **Chapter number**: e.g., 1, 2, 3
 2. **Chapter title**: Title name
 3. **Chapter content**: Complete text
 
-### Storyboard Quantity Reference
+### Step 3: Storyboard Quantity Reference
 
 - Short chapter (500-1000 chars): 10-15 storyboards
 - Medium chapter (1000-2000 chars): 15-25 storyboards
 - Long chapter (2000+ chars): 25-40 storyboards
 
-### Special Requirements (Optional)
+### Step 4: Special Requirements (Optional)
 
 - Emotional scenes that need emphasis
 - Slow motion or special effect shots
@@ -214,7 +247,51 @@ Need to provide:
 
 ---
 
+## 🔍 Example: Pre-check Process
+
+**Scenario**: User wants to create storyboard for Chapter 5
+
+**System Analysis**:
+```
+Chapter 5 mentions:
+- Characters: 李小明, 张医生 (新人物), 王护士
+- Scenes: 咖啡厅, 医院急诊室 (新场景), 街道
+```
+
+**Pre-check Results**:
+```
+✅ Found: characters/李小明.md
+❌ Missing: characters/张医生.md  
+✅ Found: characters/王护士.md
+✅ Found: scenes/咖啡厅.md
+❌ Missing: scenes/医院急诊室.md
+✅ Found: scenes/街道.md
+```
+
+**System Response**:
+```
+⚠️ Cannot proceed with storyboard generation yet!
+
+Missing elements detected:
+- Character: 张医生
+- Scene: 医院急诊室
+
+I will now guide you through creating these missing elements using the /add-character-scene command...
+
+[Proceeds to collect information and create missing character and scene files]
+
+✅ All elements ready! Proceeding with storyboard generation...
+```
+
+---
+
 ## ⚠️ Notes
+
+### Pre-check Requirements (Critical 🔴)
+- **Never skip the pre-check phase** - Always verify all characters and scenes exist before generating storyboards
+- **Missing elements must be created first** - Without proper character/scene reference files, prompt quality will suffer
+- **Use `/add-character-scene` command** - This ensures all new elements follow project style and structure
+- **Verify file existence** - Check `characters/` and `scenes/` directories for exact filename matches
 
 ### Visual Continuity
 - Adjacent storyboards visually coherent
@@ -238,4 +315,13 @@ Need to provide:
 
 ---
 
-**Ready? Provide chapter information and start creating storyboard script!**
+## 🎯 Quick Start
+
+**Ready to create a storyboard? Here's what will happen**:
+
+1. ✅ **Automatic Pre-check**: System scans chapter and verifies all characters/scenes exist
+2. 🆕 **Missing Element Creation** (if needed): Guided creation of any missing characters/scenes via `/add-character-scene`
+3. 🎬 **Storyboard Generation**: Incremental generation of detailed storyboards with spatial logic
+4. 💾 **Auto-save**: Each storyboard immediately written to markdown file
+
+**Provide your chapter information and let's begin!**

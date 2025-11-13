@@ -7,11 +7,12 @@ When executing this command, complete tasks in the following order and check off
 ### Stage 1: Information Collection and Analysis
 - [ ] Receive preprocessed information: Parse story summary, characters and scenes from user-provided information (recommended to use `/summarize-novel` command first)
 - [ ] Verify information completeness: Confirm if character (3-8) and scene (3-10) information is complete and usable
-- [ ] Determine anime style: Ask and record user's style choice (Japanese/American/Chinese/Korean, etc.)
+- [ ] Determine character ethnic/cultural background: Ask and record character ethnic/cultural background (Chinese/Japanese/Korean/Western, etc.). **Default to Chinese/Chinese style unless specified otherwise**. This determines character facial features, cultural elements, clothing style, etc.
+- [ ] Determine anime style: Ask and record user's style choice (Japanese anime/American comic/Chinese style anime/Korean webtoon, etc.)
 
 ### Stage 2: Project Structure Setup
 - [ ] Create project base structure: Create all required directories (characters/scenes/chapters/outputs, etc.)
-- [ ] Create style.md: Detailed record of style definition, color scheme, line style, lighting treatment, AI generation keywords
+- [ ] Create style.md: Detailed record of style definition, character ethnic/cultural background, color scheme, line style, lighting treatment, AI generation keywords
 
 ### Stage 3: Character Setup and Prompts
 - [ ] Create character md files: Create independent document for each main character (including basic info, appearance, clothing, personality)
@@ -99,7 +100,19 @@ Check if provided information meets requirements:
 - Does each scene have environment and atmosphere descriptions
 - If missing, ask user to supplement
 
-### Step 3: Determine Style
+### Step 3: Determine Character Ethnic/Cultural Background and Style
+
+**First, determine character ethnic/cultural background** (this is crucial and determines character appearance features):
+Ask user about character ethnic/cultural background in the story:
+- **Chinese/Chinese style** (default choice) - Characters have Chinese facial features, Chinese cultural elements, traditional or modern Chinese clothing
+- Japanese/Japanese style - Characters have Japanese facial features, Japanese cultural elements
+- Korean/Korean style - Characters have Korean facial features, Korean cultural elements  
+- Western/European-American style - Characters have Western facial features, Western cultural elements
+- Or mixed/other cultural backgrounds
+
+**If user doesn't specify, default to Chinese/Chinese style**.
+
+**Then, determine anime style**:
 Ask user what anime style they want to use, provide options:
 - Japanese anime style (Miyazaki, Shinkai, Kyoto Animation, etc.)
 - American comic style (Marvel, DC, etc.)
@@ -108,6 +121,11 @@ Ask user what anime style they want to use, provide options:
 - Or let user customize
 
 Ask in detail about style's colors, lines, lighting characteristics.
+
+**Note**: Character ethnic/cultural background and anime style are two different dimensions:
+- Ethnic/cultural background determines character's **appearance features, cultural elements, clothing style**
+- Anime style determines **drawing technique, line style, color treatment**
+- Example: Can have "Chinese characters drawn in Japanese anime style" or "Western characters drawn in Chinese style anime"
 
 **⚠️ If project involves historical figures**:
 - Confirm whether to emphasize historical accuracy (clothing, architecture, artifacts, etc.)
@@ -118,7 +136,7 @@ Ask in detail about style's colors, lines, lighting characteristics.
 
 ### Step 4: Create Project Structure
 Create complete project structure in current working directory:
-- `style.md` - Detailed record of style definition, including color scheme, line style, lighting treatment, character and scene drawing requirements, and general keywords for AI image generation
+- `style.md` - Detailed record of style definition, including **character ethnic/cultural background** (Chinese/Japanese/Korean/Western, etc., default Chinese), color scheme, line style, lighting treatment, character and scene drawing requirements, and general keywords for AI image generation
 - `characters/` directory - Create independent md file for each main character (e.g., `李小明.md`, `王雪儿.md`), containing character's basic info, appearance features, clothing design, personality traits
 - `scenes/` directory - Create md file for each main scene (e.g., `咖啡厅.md`, `校园操场.md`), describing scene's environment, atmosphere, key elements
 - `chapters/` directory - Reserved chapter directory (to create storyboard scripts through separate command later)
@@ -179,9 +197,10 @@ All prompts must use **natural language description format**:
   - Use complete sentences in natural language, don't pile up keywords
   - Can use Chinese or English description, but maintain language consistency
   - Don't use special symbols, line breaks, all content in one paragraph
-  - Organize description in order: "subject-historical identity-appearance-clothing-power characteristics-psychological state-background-style-quality"
-  - **Chinese Example (Fictional Character)**: `画一个20岁的年轻男性角色正面全身像。他有着短黑色头发，棕色眼睛，瓜子脸，身材修长。穿着白色衬衫和深色长裤。他自然站立，表情平静中性。纯白色背景。采用日系动漫风格，线条清晰，色彩明亮，高质量精细画面。`
-  - **Chinese Example (Historical Figure)**: `画明朝开国皇帝朱元璋的正面全身像，40多岁，面容特征独特强势。他有长脑袋、宽大下巴，典型的"驴脸"，皮肤黝黑粗糙，眼神深邃冷酷透着智慧和残忍。穿着明黄龙袍，绣着金龙纹样，平天冠装束，散发不可侵犯的帝王气场。纯白背景。日系动漫风格，线条清晰精细，光影对比强烈，高质量精细画面。`
+  - Organize description in order: "subject-ethnic/cultural background-historical identity (if applicable)-appearance-clothing-power characteristics-psychological state-background-style-quality"
+  - **⚠️ Important: Must clearly indicate character ethnic/cultural background** (e.g., Chinese, Japanese, Korean, Western, etc.)
+  - **Chinese Example (Fictional Character)**: `画一个20岁的中国年轻男性角色正面全身像。他有着典型的中国人面部特征，短黑色头发，深棕色眼睛，瓜子脸，身材修长。穿着白色衬衫和深色长裤。他自然站立，表情平静中性。纯白色背景。采用日系动漫风格，线条清晰，色彩明亮，高质量精细画面。`
+  - **Chinese Example (Historical Figure)**: `画明朝开国皇帝朱元璋的正面全身像，中国历史人物，40多岁，面容特征独特强势。他有长脑袋、宽大下巴，典型的"驴脸"，皮肤黝黑粗糙，眼神深邃冷酷透着智慧和残忍。穿着明黄龙袍，绣着金龙纹样，平天冠装束，散发不可侵犯的帝王气场。纯白背景。日系动漫风格，线条清晰精细，光影对比强烈，高质量精细画面。`
 
 Scene md files should also contain generation prompts, supporting different angles (远景, 中景, 近景).
 

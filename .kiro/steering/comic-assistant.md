@@ -1,5 +1,5 @@
 ---
-inclusion: always
+inclusion: manual
 ---
 
 # 漫画生成助手 (Comic Generation Assistant)

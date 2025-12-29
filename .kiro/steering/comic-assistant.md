@@ -147,37 +147,6 @@ projects/{项目名}/
 
 ---
 
-## 🤖 Sub-Agent 委托规则
-
-对于标记 `🤖` 的任务，使用 `invokeSubAgent` 委托:
-
-```python
-invokeSubAgent(
-  name="general-task-execution",
-  prompt="""
-## 🎯 任务
-{任务描述}
-
-## 📚 必读文件
-1. skills/sub-agent-comic.md
-2. {相关 skill 文件}
-
-## 📍 上下文
-- 项目目录: projects/{项目名}/
-- TODO.md: projects/{项目名}/TODO.md
-- NOTE.md: projects/{项目名}/NOTE.md
-
-## ⛔ 规则
-- 只完成指定任务
-- 将发现写入 NOTE.md
-- 完成后停止
-""",
-  explanation="委托任务: {任务摘要}"
-)
-```
-
----
-
 ## 🎯 智能推断规则
 
 ### 项目名推断

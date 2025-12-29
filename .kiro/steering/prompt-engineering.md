@@ -1,10 +1,11 @@
 ---
-inclusion: always
+inclusion: manual
 ---
 
 # Prompt Engineering for Image Generation
 
-图像生成提示词工程规范。
+## Rule
+必须先使用pwd命令获取当前目录，防止输出到意外的目录中
 
 ## Reference Image Purpose Declaration (Critical)
 
